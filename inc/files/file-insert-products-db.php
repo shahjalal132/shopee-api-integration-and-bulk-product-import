@@ -36,7 +36,13 @@ function insert_products_db() {
     ob_start();
 
     /* $api_response = fetch_products_from_api();
-    $products     = json_decode( $api_response, true );
+    $products     = json_decode( $api_response, true ); */
+
+    $file             = BULK_PRODUCT_IMPORT_PLUGIN_PATH . '/uploads/products.json';
+    $file_data        = file_get_contents( $file );
+    $decode_file_data = json_decode( $file_data, true );
+    $response         = $decode_file_data['response'];
+    $products         = $response['item_list'];
 
     // Insert to database
     global $wpdb;
@@ -46,18 +52,21 @@ function insert_products_db() {
 
     foreach ( $products as $product ) {
 
+        // get item sku
+        $item_sku = $product['item_sku'];
+
         // extract products
         $product_data = json_encode( $product );
 
         $wpdb->insert(
             $products_table,
             [
-                'product_number' => '',
+                'product_number' => $item_sku,
                 'product_data'   => $product_data,
                 'status'         => 'pending',
             ]
         );
-    } */
+    }
 
     echo '<h4>Products inserted successfully DB</h4>';
 
