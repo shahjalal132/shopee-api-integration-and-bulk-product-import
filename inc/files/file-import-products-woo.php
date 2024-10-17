@@ -18,7 +18,6 @@ use Automattic\WooCommerce\HttpClient\HttpClientException;
  * Fetch product data from database
  * Process product data and insert into WooCommerce
  * 
- * @return string|WP_REST_Response
  */
 function products_import_woocommerce() {
     try {
@@ -43,7 +42,7 @@ function products_import_woocommerce() {
         $consumer_secret = get_option( 'be-client-secret' ) ?? '';
 
         // SQL query
-        $sql = "SELECT * FROM $products_table WHERE status = 'pending' LIMIT 1";
+        $sql = "SELECT id, product_number, product_data FROM $products_table WHERE status = 'pending' LIMIT 1";
 
         // Retrieve pending products from the database
         $products = $wpdb->get_results( $wpdb->prepare( $sql ) );
@@ -52,14 +51,28 @@ function products_import_woocommerce() {
             foreach ( $products as $product ) {
 
                 // Retrieve product data
-                $serial_id   = $product->id;
-                $sku         = '';
-                $title       = '';
+                $serial_id = $product->id;
+                $sku       = $product->product_number;
+
+                // Decode product data
+                $product_data = json_decode( $product->product_data, true );
+
+                // get product title
+                $title       = $product_data['item_name'];
                 $description = '';
-                $quantity    = 0;
+
+                // get stock info
+                $stock_info   = $product_data['stock_info_v2'];
+                $seller_stock = $stock_info['seller_stock'];
+
+                // get product stock
+                $quantity = $seller_stock[0]['stock'];
+
+                // get images
+                $image_list = $product_data['image']['image_url_list'];
 
                 // Retrieve product images
-                $images = [];
+                $images = $image_list;
 
                 // Retrieve product category
                 $category = '';
@@ -67,9 +80,12 @@ function products_import_woocommerce() {
                 // Retrieve product tags
                 $tags = '';
 
+                // get price info
+                $price_info = $product_data['price_info'][0];
+
                 // Extract prices
-                $regular_price = 0;
-                $sale_price    = 0;
+                $regular_price = $price_info['original_price'];
+                $sale_price    = $price_info['current_price'];
 
                 // Set up the API client with WooCommerce store URL and credentials
                 $client = new Client(
@@ -307,7 +323,7 @@ function set_product_images_with_unique_image_name( $product_id, $images ) {
                 $attach_id = wp_insert_attachment( $attachment, $file_path, $product_id );
 
                 // You need to generate the attachment metadata and update the attachment
-                require_once ( ABSPATH . 'wp-admin/includes/image.php' );
+                require_once( ABSPATH . 'wp-admin/includes/image.php' );
                 $attach_data = wp_generate_attachment_metadata( $attach_id, $file_path );
                 wp_update_attachment_metadata( $attach_id, $attach_data );
 
