@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: WooCommerce Bulk Product Import
+ * Plugin Name: MSB GPT WooCommerce Bulk Product Import
  * Plugin URI:  https://imjol.com/products/bulk-product-import
  * Author:      Shah jalal
  * Author URI:  https://github.com/shahjalal132
