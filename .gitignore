@@ -10,7 +10,7 @@
 !.vscode/*.code-snippets
 
 # Composer
-vendor
+# vendor
 
 # Local History for Visual Studio Code
 .history/

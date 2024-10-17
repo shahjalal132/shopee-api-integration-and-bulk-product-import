@@ -1,0 +1,112 @@
+{
+    "error": "",
+    "message": "",
+    "warning": "fail to get channel estimated_shipping_fee for channel [20088];\nfail to get channel estimated_shipping_fee for channel [20033];\nfail to get channel estimated_shipping_fee for channel [20011]",
+    "request_id": "317a860d24aa8260a58e2e5e50e4fb00",
+    "response": {
+        "item_list": [
+            {
+                "item_id": 1888637,
+                "category_id": 101938,
+                "item_name": "test productffffffffffff",
+                "item_sku": "e5545555",
+                "create_time": 1726971381,
+                "update_time": 1726971381,
+                "price_info": [
+                    {
+                        "currency": "MYR",
+                        "original_price": 4.55,
+                        "current_price": 4.55
+                    }
+                ],
+                "image": {
+                    "image_id_list": [
+                        "my-11134207-7r98o-m0gqf9ynp7pufd",
+                        "my-11134207-7r98o-m0gqhloh6us2de"
+                    ],
+                    "image_url_list": [
+                        "https://cf.shopee.com.my/file/my-11134207-7r98o-m0gqf9ynp7pufd",
+                        "https://cf.shopee.com.my/file/my-11134207-7r98o-m0gqhloh6us2de"
+                    ],
+                    "image_ratio": "1:1"
+                },
+                "weight": "0.01",
+                "dimension": {
+                    "package_length": 1,
+                    "package_width": 1,
+                    "package_height": 1
+                },
+                "logistic_info": [
+                    {
+                        "logistic_id": 20088,
+                        "logistic_name": "SPX Express (West Malaysia)",
+                        "enabled": true,
+                        "size_id": 1,
+                        "is_free": false
+                    },
+                    {
+                        "logistic_id": 20033,
+                        "logistic_name": "SPX Express (East Malaysia)",
+                        "enabled": false,
+                        "size_id": 1,
+                        "is_free": false
+                    },
+                    {
+                        "logistic_id": 20011,
+                        "logistic_name": "J&T Express",
+                        "enabled": false,
+                        "size_id": 1,
+                        "is_free": false
+                    }
+                ],
+                "pre_order": {
+                    "is_pre_order": false,
+                    "days_to_ship": 3
+                },
+                "condition": "NEW",
+                "size_chart": "",
+                "item_status": "NORMAL",
+                "has_model": false,
+                "promotion_id": 0,
+                "brand": {
+                    "brand_id": 0,
+                    "original_brand_name": "NoBrand"
+                },
+                "item_dangerous": 0,
+                "description_info": {
+                    "extended_description": {
+                        "field_list": [
+                            {
+                                "field_type": "text",
+                                "text": "testddddddddddddddd\nffffffffffffffffffffff"
+                            }
+                        ]
+                    }
+                },
+                "description_type": "extended",
+                "stock_info_v2": {
+                    "summary_info": {
+                        "total_reserved_stock": 0,
+                        "total_available_stock": 443
+                    },
+                    "seller_stock": [
+                        {
+                            "location_id": "MYZ",
+                            "stock": 443,
+                            "if_saleable": true
+                        }
+                    ],
+                    "shopee_stock": [
+                        {
+                            "location_id": "",
+                            "stock": 0
+                        }
+                    ]
+                },
+                "size_chart_id": 0,
+                "deboost": "FALSE"
+            }
+        ]
+    },
+    "debug_message": ""
+}
