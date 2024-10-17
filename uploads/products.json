@@ -105,6 +105,89 @@
                 },
                 "size_chart_id": 0,
                 "deboost": "FALSE"
+            },
+            {
+                "item_id": 1892347,
+                "category_id": 101935,
+                "item_name": "test2",
+                "item_sku": "product1",
+                "create_time": 1729166268,
+                "update_time": 1729166268,
+                "image": {
+                    "image_id_list": [
+                        "my-11134207-7r98o-m1gzshhkclzmf5",
+                        "my-11134207-7r98o-m1gzsqx6jmfmb6"
+                    ],
+                    "image_url_list": [
+                        "https://cf.shopee.com.my/file/my-11134207-7r98o-m1gzshhkclzmf5",
+                        "https://cf.shopee.com.my/file/my-11134207-7r98o-m1gzsqx6jmfmb6"
+                    ],
+                    "image_ratio": "1:1"
+                },
+                "weight": "0.01",
+                "dimension": {
+                    "package_length": 1,
+                    "package_width": 1,
+                    "package_height": 1
+                },
+                "logistic_info": [
+                    {
+                        "logistic_id": 20011,
+                        "logistic_name": "J&T Express",
+                        "enabled": true,
+                        "size_id": 1,
+                        "is_free": false,
+                        "estimated_shipping_fee": 5
+                    },
+                    {
+                        "logistic_id": 20088,
+                        "logistic_name": "SPX Express (West Malaysia)",
+                        "enabled": true,
+                        "size_id": 1,
+                        "is_free": false,
+                        "estimated_shipping_fee": 5
+                    },
+                    {
+                        "logistic_id": 20033,
+                        "logistic_name": "SPX Express (East Malaysia)",
+                        "enabled": true,
+                        "size_id": 1,
+                        "is_free": false,
+                        "estimated_shipping_fee": 5
+                    }
+                ],
+                "pre_order": {
+                    "is_pre_order": false,
+                    "days_to_ship": 3
+                },
+                "condition": "NEW",
+                "size_chart": "",
+                "item_status": "NORMAL",
+                "has_model": true,
+                "brand": {
+                    "brand_id": 0,
+                    "original_brand_name": "NoBrand"
+                },
+                "item_dangerous": 0,
+                "complaint_policy": {
+                    "warranty_time": "",
+                    "exclude_entrepreneur_warranty": false,
+                    "complaint_address_id": 0,
+                    "additional_information": ""
+                },
+                "description_info": {
+                    "extended_description": {
+                        "field_list": [
+                            {
+                                "field_type": "text",
+                                "text": "test2ssss"
+                            }
+                        ]
+                    }
+                },
+                "description_type": "extended",
+                "size_chart_id": 0,
+                "deboost": "FALSE"
             }
         ]
     },
