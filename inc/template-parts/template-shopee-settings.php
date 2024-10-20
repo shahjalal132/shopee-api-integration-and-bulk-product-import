@@ -4,10 +4,11 @@
  * Template for Shopee Settings
  */
 
-$shopee_base_url    = get_option( 'shopee_base_url', '' ) ?? '';
-$shopee_partner_id  = get_option( 'shopee_partner_id', '' ) ?? '';
-$shopee_partner_key = get_option( 'shopee_partner_key', '' ) ?? '';
-$shopee_shop_id     = get_option( 'shopee_shop_id', '' ) ?? '';
+$shopee_base_url     = get_option( 'shopee_base_url', '' ) ?? '';
+$shopee_partner_id   = get_option( 'shopee_partner_id', '' ) ?? '';
+$shopee_partner_key  = get_option( 'shopee_partner_key', '' ) ?? '';
+$shopee_shop_id      = get_option( 'shopee_shop_id', '' ) ?? '';
+$shopee_access_token = get_option( 'shopee_access_token', '' ) ?? '';
 
 ?>
 
@@ -57,6 +58,16 @@ $shopee_shop_id     = get_option( 'shopee_shop_id', '' ) ?? '';
                     <input type="text" class="form-control ms-5" style="width: 60% !important" name="shopee_shop_id"
                         id="shopee_shop_id" value="<?= esc_attr( $shopee_shop_id ); ?>"
                         placeholder="<?php esc_attr_e( 'Shop ID', 'bulk-product-import' ); ?>" required>
+                </div>
+                <div class="d-flex align-items-center mt-3">
+                    <!-- Label and input for Partner Key -->
+                    <label class="form-label" for="shopee_access_token">
+                        <?php esc_html_e( 'Access Token', 'bulk-product-import' ); ?>
+                    </label>
+                    <input type="text" class="form-control ms-5" style="width: 60% !important"
+                        name="shopee_access_token" id="shopee_access_token"
+                        value="<?= esc_attr( $shopee_access_token ); ?>"
+                        placeholder="<?php esc_attr_e( 'Access Token', 'bulk-product-import' ); ?>">
                 </div>
                 <!-- Submit button to save credentials -->
                 <input type="submit" class="btn btn-primary mt-3" id="shopee-credential-save"
