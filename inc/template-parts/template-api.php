@@ -5,7 +5,7 @@ $client_secret = get_option( 'be-client-secret' ) ?? '';
 ?>
 
 <!-- API credentials form -->
-<div class="container-fluid api-credentials">
+<div class="container-fluid shopee-settings">
     <div class="row">
         <div class="col-sm-12">
             <!-- Title for the API credentials section -->

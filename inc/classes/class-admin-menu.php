@@ -71,6 +71,8 @@ class Admin_Menu {
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a href="#api"
                             class="nav-link be-nav-links"><?php esc_html_e( 'API', 'bulk-product-import' ); ?></a></li>
+                    <li class="nav-item"><a href="#shopee-api"
+                            class="nav-link be-nav-links"><?php esc_html_e( 'Shopee Settings', 'bulk-product-import' ); ?></a></li>
                     <li class="nav-item"><a href="#tables"
                             class="nav-link be-nav-links"><?php esc_html_e( 'Tables', 'bulk-product-import' ); ?></a></li>
                     <li class="nav-item"><a href="#endpoints"
@@ -79,6 +81,10 @@ class Admin_Menu {
 
                 <div id="api">
                     <?php include BULK_PRODUCT_IMPORT_PLUGIN_PATH . '/inc/template-parts/template-api.php'; ?>
+                </div>
+
+                <div id="shopee-api">
+                    <?php include BULK_PRODUCT_IMPORT_PLUGIN_PATH . '/inc/template-parts/template-shopee-settings.php'; ?>
                 </div>
 
                 <div id="tables">
