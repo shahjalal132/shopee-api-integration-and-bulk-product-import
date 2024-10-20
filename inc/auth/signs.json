@@ -1,14 +1,1 @@
-{
-    "get_item_list": {
-        "path": "/api/v2/product/get_item_list",
-        "access_token": "6d4e44686563647a554e4f6a4e4a5044",
-        "timestamp": 1729428549,
-        "sign": "cfa2334633a48639aba8dd32f4178fb71e65a30e478021ef0b74a6ff261ff0f0"
-    },
-    "get_item_base_info": {
-        "path": "/api/v2/product/get_item_base_info",
-        "access_token": "6d4e44686563647a554e4f6a4e4a5044",
-        "timestamp": 1729428549,
-        "sign": "3b6ced5d1d1052d1b80f6d40dce8e33f215012532d6e7080343411331a54ed7a"
-    }
-}
+{"get_item_list":{"path":"/api/v2/product/get_item_list","access_token":"6d4e44686563647a554e4f6a4e4a5044","timestamp":1729430518,"sign":"ec4214c2ab19edf626a28ab519bda11814ef3782bb8f3acf8d5e7b766d634f57"},"get_item_base_info":{"path":"/api/v2/product/get_item_base_info","access_token":"6d4e44686563647a554e4f6a4e4a5044","timestamp":1729430518,"sign":"c975001b3ff4d6f5708191588f6baa02a7a4ca234c069716d4ce266779151fb2"}}
