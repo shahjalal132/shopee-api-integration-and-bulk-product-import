@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Plugin Name: MSB GPT WooCommerce Bulk Product Import
- * Plugin URI:  https://imjol.com/products/bulk-product-import
+ * Plugin Name: Shopee API Integration & Bulk Product Import
+ * Plugin URI:  https://github.com/shahjalal132/msb-pgt-bulk-product-import
  * Author:      Shah jalal
  * Author URI:  https://github.com/shahjalal132
- * Description: WooCommerce Bulk Product Import from external api source. Auto import products from external api source.
- * Version:     0.1.0
+ * Description: Shopee API Integration & Bulk Product Import to WooCommerce. Sync products, Orders with Shopee.
+ * Version:     1.0.0
  * Domain Path: /languages
  * text-domain: bulk-product-import
  */
