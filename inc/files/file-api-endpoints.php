@@ -13,21 +13,25 @@ function bulk_products_import() {
     register_rest_route( 'bulk-import/v1', '/sync-products', [
         'methods'  => 'GET',
         'callback' => 'sync_products_api_callback',
+        'permission_callback' => '__return_true'
     ] );
 
     register_rest_route( 'bulk-import/v1', '/insert-products-db', [
         'methods'  => 'GET',
         'callback' => 'insert_products_db_api_callback',
+        'permission_callback' => '__return_true'
     ] );
 
     register_rest_route( 'bulk-import/v1', '/insert-price-db', [
         'methods'  => 'GET',
         'callback' => 'insert_price_db_api_callback',
+        'permission_callback' => '__return_true'
     ] );
 
     register_rest_route( 'bulk-import/v1', '/insert-stock-db', [
         'methods'  => 'GET',
         'callback' => 'insert_stock_db_api_callback',
+        'permission_callback' => '__return_true'
     ] );
 
 }
