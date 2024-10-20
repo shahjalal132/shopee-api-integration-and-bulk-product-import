@@ -72,6 +72,35 @@
       });
     });
 
+    // handle db tables creation
+    $("#shopee-credential-save").on("click", function (e) {
+      e.preventDefault();
+      
+      let shopee_base_url = $("#shopee_base_url").val();
+      let shopee_partner_id = $("#shopee_partner_id").val();
+      let shopee_partner_key = $("#shopee_partner_key").val();
+      let shopee_shop_id = $("#shopee_shop_id").val();
+
+      $.ajax({
+        type: "POST",
+        url: bulkProductImport.ajax_url,
+        data: {
+          action: "save_shopee_credentials",
+          nonce: bulkProductImport.nonce,
+          shopee_base_url: shopee_base_url,
+          shopee_partner_id: shopee_partner_id,
+          shopee_partner_key: shopee_partner_key,
+          shopee_shop_id: shopee_shop_id,
+        },
+        success: function (response) {
+
+          let successMessage = response.data;
+          // Display an info toast with no title
+          showNotification(successMessage);
+        },
+      });
+    });
+
     // tabs
     $("#tabs").tabs();
 
@@ -138,9 +167,8 @@
     document
       .getElementById("sync-products-cp")
       .addEventListener("click", function () {
-        let syncProducts = document.getElementById(
-          "sync-products-api"
-        ).textContent;
+        let syncProducts =
+          document.getElementById("sync-products-api").textContent;
         copyToClipboard(syncProducts);
         showNotification("Copied to clipboard!");
       });
@@ -148,9 +176,8 @@
     document
       .getElementById("insert-price-cp")
       .addEventListener("click", function () {
-        let syncProducts = document.getElementById(
-          "insert-price-api"
-        ).textContent;
+        let syncProducts =
+          document.getElementById("insert-price-api").textContent;
         copyToClipboard(syncProducts);
         showNotification("Copied to clipboard!");
       });
@@ -158,9 +185,8 @@
     document
       .getElementById("insert-stock-cp")
       .addEventListener("click", function () {
-        let syncProducts = document.getElementById(
-          "insert-stock-api"
-        ).textContent;
+        let syncProducts =
+          document.getElementById("insert-stock-api").textContent;
         copyToClipboard(syncProducts);
         showNotification("Copied to clipboard!");
       });

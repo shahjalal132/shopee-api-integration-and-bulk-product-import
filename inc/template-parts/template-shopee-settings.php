@@ -4,10 +4,10 @@
  * Template for Shopee Settings
  */
 
-$shopee_base_url    = '';
-$shopee_partner_id  = '';
-$shopee_partner_key = '';
-$shopee_shop_id     = '';
+$shopee_base_url    = get_option( 'shopee_base_url', '' ) ?? '';
+$shopee_partner_id  = get_option( 'shopee_partner_id', '' ) ?? '';
+$shopee_partner_key = get_option( 'shopee_partner_key', '' ) ?? '';
+$shopee_shop_id     = get_option( 'shopee_shop_id', '' ) ?? '';
 
 ?>
 
