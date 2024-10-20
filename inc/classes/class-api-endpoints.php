@@ -22,24 +22,28 @@ class Api_Endpoints {
         register_rest_route( 'bulk-import/v1', '/server-status', [
             'methods'  => 'GET',
             'callback' => [ $this, 'bulk_product_import_callback' ],
+            'permission_callback' => '__return_true'
         ] );
 
         // delete products from woocommerce
         register_rest_route( 'bulk-import/v1', '/delete-products', [
             'methods'  => 'GET',
             'callback' => [ $this, 'bulk_product_delete_callback' ],
+            'permission_callback' => '__return_true'
         ] );
 
         // delete trash products from woocommerce
         register_rest_route( 'bulk-import/v1', '/delete-trash-products', [
             'methods'  => 'GET',
             'callback' => [ $this, 'bulk_product_trash_delete_callback' ],
+            'permission_callback' => '__return_true'
         ] );
 
         // delete categories from woocommerce
         register_rest_route( 'bulk-import/v1', '/delete-woo-cats', [
             'methods'  => 'GET',
             'callback' => [ $this, 'delete_woo_cats_callback' ],
+            'permission_callback' => '__return_true'
         ] );
     }
 
