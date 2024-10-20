@@ -1,0 +1,12 @@
+{
+    "get_item_list": {
+        "path": "/api/v2/product/get_item_list",
+        "timestamp": 1729427230,
+        "sign": "36cbd2112985384a5d37153ad73841dba32c1f822c94cce4e50df2fa5e005cf5"
+    },
+    "get_item_base_info": {
+        "path": "/api/v2/product/get_item_base_info",
+        "timestamp": 1729427230,
+        "sign": "8ca52239a498e6ff3563b0b2994ebc5cfc559e37093afa6ff897477bb8cb571d"
+    }
+}

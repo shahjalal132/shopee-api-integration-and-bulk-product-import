@@ -79,7 +79,7 @@ wp-config.php
 /wp-content/uploads/
 
 # Log files
-*.log
+# *.log
 
 # htaccess
 /.htaccess
