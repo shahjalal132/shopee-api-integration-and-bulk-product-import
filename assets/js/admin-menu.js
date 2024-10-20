@@ -80,6 +80,7 @@
       let shopee_partner_id = $("#shopee_partner_id").val();
       let shopee_partner_key = $("#shopee_partner_key").val();
       let shopee_shop_id = $("#shopee_shop_id").val();
+      let shopee_access_token = $("#shopee_access_token").val();
 
       $.ajax({
         type: "POST",
@@ -91,6 +92,7 @@
           shopee_partner_id: shopee_partner_id,
           shopee_partner_key: shopee_partner_key,
           shopee_shop_id: shopee_shop_id,
+          shopee_access_token: shopee_access_token
         },
         success: function (response) {
 

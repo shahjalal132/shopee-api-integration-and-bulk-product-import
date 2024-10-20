@@ -184,16 +184,18 @@ class Admin_Menu {
         }
 
         // get the shopee credentials
-        $shopee_base_url    = sanitize_text_field( $_POST['shopee_base_url'] );
-        $shopee_partner_id  = sanitize_text_field( $_POST['shopee_partner_id'] );
-        $shopee_partner_key = sanitize_text_field( $_POST['shopee_partner_key'] );
-        $shopee_shop_id     = sanitize_text_field( $_POST['shopee_shop_id'] );
+        $shopee_base_url     = sanitize_text_field( $_POST['shopee_base_url'] );
+        $shopee_partner_id   = sanitize_text_field( $_POST['shopee_partner_id'] );
+        $shopee_partner_key  = sanitize_text_field( $_POST['shopee_partner_key'] );
+        $shopee_shop_id      = sanitize_text_field( $_POST['shopee_shop_id'] );
+        $shopee_access_token = sanitize_text_field( $_POST['shopee_access_token'] );
 
         // save the shopee credentials
         update_option( 'shopee_base_url', $shopee_base_url );
         update_option( 'shopee_partner_id', $shopee_partner_id );
         update_option( 'shopee_partner_key', $shopee_partner_key );
         update_option( 'shopee_shop_id', $shopee_shop_id );
+        update_option( 'shopee_access_token', $shopee_access_token );
 
         // return success response
         wp_send_json_success( __( 'Credentials saved successfully', 'bulk-product-import' ) );

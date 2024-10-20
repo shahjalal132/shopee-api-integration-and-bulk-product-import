@@ -25,10 +25,11 @@ class Sign_Generator {
         add_action( 'rest_api_init', [ $this, 'register_api_endpoints' ] );
 
         // get the shopee credentials
-        $this->shopee_base_url    = get_option( 'shopee_base_url', '' ) ?? '';
-        $this->shopee_partner_id  = get_option( 'shopee_partner_id', '' ) ?? '';
-        $this->shopee_partner_key = get_option( 'shopee_partner_key', '' ) ?? '';
-        $this->shopee_shop_id     = get_option( 'shopee_shop_id', '' ) ?? '';
+        $this->shopee_base_url     = get_option( 'shopee_base_url', '' ) ?? '';
+        $this->shopee_partner_id   = get_option( 'shopee_partner_id', '' ) ?? '';
+        $this->shopee_partner_key  = get_option( 'shopee_partner_key', '' ) ?? '';
+        $this->shopee_shop_id      = get_option( 'shopee_shop_id', '' ) ?? '';
+        $this->shopee_access_token = get_option( 'shopee_access_token', '' ) ?? '';
     }
 
     public function register_api_endpoints() {
@@ -59,13 +60,14 @@ class Sign_Generator {
             foreach ( $paths as $path ) {
                 // Call the function to generate the sign for the current path
                 $sign_data = $this->generate_sign_for_single_path( $path );
-                                
+
                 // Add the result to the array with the path name as the key
                 $key          = basename( $path ); // Extract the last part of the path, e.g., get_item_list
                 $result[$key] = [
-                    'path'      => $path,
-                    'timestamp' => $sign_data['timestamp'],
-                    'sign'      => $sign_data['sign'],
+                    'path'         => $path,
+                    'access_token' => $this->shopee_access_token,
+                    'timestamp'    => $sign_data['timestamp'],
+                    'sign'         => $sign_data['sign'],
                 ];
             }
         }
