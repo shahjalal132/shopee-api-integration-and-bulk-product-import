@@ -50,6 +50,7 @@ class Sign_Generator {
         $paths = [
             "/api/v2/product/get_item_list",
             "/api/v2/product/get_item_base_info",
+            "/api/v2/product/get_category",
         ];
 
         // define the result array
