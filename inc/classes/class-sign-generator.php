@@ -51,6 +51,7 @@ class Sign_Generator {
             "/api/v2/product/get_item_list",
             "/api/v2/product/get_item_base_info",
             "/api/v2/product/get_category",
+            "/api/v2/order/get_order_list",
         ];
 
         // define the result array

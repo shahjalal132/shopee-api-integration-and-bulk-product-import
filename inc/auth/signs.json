@@ -1,1 +1,26 @@
-{"get_item_list":{"path":"/api/v2/product/get_item_list","access_token":"72497250624652727248494763516941","timestamp":1729496082,"sign":"9b0d8121950cc834c45c484edcd460c61720d69f80084e5e24eecbebbe325ac0"},"get_item_base_info":{"path":"/api/v2/product/get_item_base_info","access_token":"72497250624652727248494763516941","timestamp":1729496082,"sign":"d186c51854f6cef05df901a47bf864557fd5997ad1bb6074ae8936acdd01719b"},"get_category":{"path":"/api/v2/product/get_category","access_token":"72497250624652727248494763516941","timestamp":1729496082,"sign":"d98ee9f2ad414905f812642753da41e6a05504da5b75bc279a91094849010ce2"}}
+{
+    "get_item_list": {
+        "path": "/api/v2/product/get_item_list",
+        "access_token": "746748594b6c5957776149424a4d6d47",
+        "timestamp": 1729505735,
+        "sign": "05d982e77425ea2353471be7f8dcd9e076c478ca8f1fc30597089d59fc59cbf1"
+    },
+    "get_item_base_info": {
+        "path": "/api/v2/product/get_item_base_info",
+        "access_token": "746748594b6c5957776149424a4d6d47",
+        "timestamp": 1729505735,
+        "sign": "2fb04355edb5c3838dca90ac14b9a866ad537d878a21241e19b80f07bd63b0e4"
+    },
+    "get_category": {
+        "path": "/api/v2/product/get_category",
+        "access_token": "746748594b6c5957776149424a4d6d47",
+        "timestamp": 1729505735,
+        "sign": "5ff8c8412c913b13d8ff3905c546a4c6020d33896f89a861cbb8a9cd0d744e64"
+    },
+    "get_order_list": {
+        "path": "/api/v2/order/get_order_list",
+        "access_token": "746748594b6c5957776149424a4d6d47",
+        "timestamp": 1729505735,
+        "sign": "625b80abf2cb060502ae94ae75a2a988f4bfd1a5f8835ce134a6b94601153da9"
+    }
+}
