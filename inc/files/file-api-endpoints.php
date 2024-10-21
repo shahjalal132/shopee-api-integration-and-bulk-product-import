@@ -34,6 +34,12 @@ function bulk_products_import() {
         'permission_callback' => '__return_true'
     ] );
 
+    register_rest_route( 'bulk-import/v1', '/insert-category-db', [
+        'methods'  => 'GET',
+        'callback' => 'insert_category_db_api_callback',
+        'permission_callback' => '__return_true'
+    ] );
+
 }
 
 function sync_products_api_callback() {
@@ -50,4 +56,8 @@ function insert_price_db_api_callback() {
 
 function insert_stock_db_api_callback() {
     return insert_stock_db();
+}
+
+function insert_category_db_api_callback() {
+    return insert_category_db();
 }

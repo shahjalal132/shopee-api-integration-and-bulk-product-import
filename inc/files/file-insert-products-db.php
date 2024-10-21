@@ -225,3 +225,47 @@ function insert_stock_db() {
     return ob_get_clean();
 
 }
+
+// fetch category from api
+function fetch_category_from_api() {
+
+    global $shopee_base_url, $shopee_partner_id, $shopee_shop_id;
+
+    // get the shopee credentials file path
+    $file_path = BULK_PRODUCT_IMPORT_PLUGIN_URL . "/inc/auth/signs.json";
+    // decode the json file
+    $signs_data = json_decode( file_get_contents( $file_path ), true );
+    // get the item list
+    $item_data = $signs_data['get_category'];
+
+    // get the access token
+    $access_token = $item_data['access_token'];
+    // get the timestamp
+    $timestamp = $item_data['timestamp'];
+    $sign      = $item_data['sign'];
+
+    $url = sprintf( "%s/api/v2/product/get_category?access_token=%s&language=&partner_id=%s&shop_id=%s&sign=%s&timestamp=%s", $shopee_base_url, $access_token, $shopee_partner_id, $shopee_shop_id, $sign, $timestamp );
+
+    $curl = curl_init();
+    curl_setopt_array( $curl, array(
+        CURLOPT_URL            => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING       => '',
+        CURLOPT_MAXREDIRS      => 10,
+        CURLOPT_TIMEOUT        => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST  => 'GET',
+        CURLOPT_HTTPHEADER     => array(),
+    ) );
+
+    $response = curl_exec( $curl );
+
+    curl_close( $curl );
+    return $response;
+}
+
+// insert category to database
+function insert_category_db() {
+    return "Category inserted successfully DB";
+}
