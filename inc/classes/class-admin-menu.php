@@ -16,8 +16,8 @@ class Admin_Menu {
 
     public function setup_hooks() {
         add_action( 'admin_menu', [ $this, 'register_admin_menu' ] );
-        add_action( 'admin_menu', [ $this, 'register_csv_import_menu' ] );
-        add_action( 'admin_menu', [ $this, 'register_sheet_import_menu' ] );
+        // add_action( 'admin_menu', [ $this, 'register_csv_import_menu' ] );
+        // add_action( 'admin_menu', [ $this, 'register_sheet_import_menu' ] );
         add_action( 'wp_ajax_save_client_credentials', [ $this, 'save_client_credentials' ] );
         add_action( 'wp_ajax_save_table_prefix', [ $this, 'save_table_prefix' ] );
         add_action( 'wp_ajax_save_shopee_credentials', [ $this, 'save_shopee_credentials' ] );
@@ -25,8 +25,8 @@ class Admin_Menu {
 
     public function register_admin_menu() {
         add_menu_page(
-            __( 'Bulk Product Import', 'bulk-product-import' ),
-            __( 'Bulk Product Import', 'bulk-product-import' ),
+            __( 'Shopee Settings', 'bulk-product-import' ),
+            __( 'Shopee Settings', 'bulk-product-import' ),
             'manage_options',
             'bulk_product_import',
             [ $this, 'bulk_product_import_page_html' ],
