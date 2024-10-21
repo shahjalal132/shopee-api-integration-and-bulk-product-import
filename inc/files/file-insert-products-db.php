@@ -267,5 +267,43 @@ function fetch_category_from_api() {
 
 // insert category to database
 function insert_category_db() {
-    return "Category inserted successfully DB";
+
+    $api_response        = fetch_category_from_api();
+    $api_response_decode = json_decode( $api_response, true );
+    $category_list       = [];
+    if ( isset( $api_response_decode['response'] ) ) {
+        $response      = $api_response_decode['response'];
+        $category_list = $response['category_list'];
+    }
+
+    // Insert to database
+    global $wpdb;
+    $table_prefix   = get_option( 'be-table-prefix' ) ?? '';
+    $category_table = $wpdb->prefix . $table_prefix . 'sync_category';
+    truncate_table( $category_table );
+
+    if ( !empty( $category_list ) ) {
+        foreach ( $category_list as $category ) {
+
+            // get item sku
+            $category_id        = $category['category_id'];
+            $parent_category_id = $category['parent_category_id'];
+            $category_name      = $category['original_category_name'];
+            $category_data      = json_encode( $category );
+
+            $wpdb->insert(
+                $category_table,
+                [
+                    'category_id'        => $category_id,
+                    'parent_category_id' => $parent_category_id,
+                    'category_name'      => $category_name,
+                    'category_data'      => $category_data,
+                ]
+            );
+        }
+        return "<h4>Categories inserted successfully DB</h4>";
+    } else {
+        return "<h4>No categories found</h4>";
+    }
+
 }
