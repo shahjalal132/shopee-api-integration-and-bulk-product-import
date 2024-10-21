@@ -42,10 +42,10 @@ function products_import_woocommerce() {
         $consumer_secret = get_option( 'be-client-secret' ) ?? '';
 
         // SQL query
-        $sql = "SELECT id, product_number, product_data FROM $products_table WHERE status = 'pending' LIMIT 1";
+        $sql = "SELECT id, product_number, updated_time FROM $products_table WHERE status = 'pending' LIMIT 1";
 
         // Retrieve pending products from the database
-        $products = $wpdb->get_results( $wpdb->prepare( $sql ) );
+        $products = $wpdb->get_results( $sql );
 
         if ( !empty( $products ) && is_array( $products ) ) {
             foreach ( $products as $product ) {
@@ -54,153 +54,236 @@ function products_import_woocommerce() {
                 $serial_id = $product->id;
                 $sku       = $product->product_number;
 
-                // Decode product data
-                $product_data = json_decode( $product->product_data, true );
+                // get product info from api
+                $product_info = get_single_product_base_info( $sku );
+                $product_info = json_decode( $product_info, true );
+                if ( isset( $product_info['response'] ) ) {
+                    $response     = $product_info['response'];
+                    $product_data = $response['item_list'][0];
+                }
 
-                // get product title
-                $title       = $product_data['item_name'];
-                $description = '';
+                if ( !empty( $product_data ) ) {
+                    // get product title
+                    $title       = $product_data['item_name'];
+                    $item_sku    = $product_data['item_sku'];
+                    $description = '';
 
-                // get stock info
-                $stock_info   = $product_data['stock_info_v2'];
-                $seller_stock = $stock_info['seller_stock'];
+                    // init stock
+                    $quantity = 0;
 
-                // get product stock
-                $quantity = $seller_stock[0]['stock'];
+                    // get stock info
+                    if ( isset( $product_data['stock_info_v2'] ) ) {
+                        $stock_info = $product_data['stock_info_v2'];
 
-                // get images
-                $image_list = $product_data['image']['image_url_list'];
+                        // Check if 'seller_stock' key exists within 'stock_info_v2'
+                        if ( isset( $stock_info['seller_stock'] ) ) {
+                            $seller_stock = $stock_info['seller_stock'];
+                        }
 
-                // Retrieve product images
-                $images = $image_list;
+                        if ( $seller_stock ) {
+                            // get product stock
+                            $quantity = $seller_stock[0]['stock'];
+                        }
+                    }
 
-                // Retrieve product category
-                $category = '';
+                    // get images
+                    $image_id_list  = $product_data['image']['image_id_list'];
+                    $image_url_list = $product_data['image']['image_url_list'];
 
-                // Retrieve product tags
-                $tags = '';
+                    // Retrieve product images
+                    $images = $image_url_list;
 
-                // get price info
-                $price_info = $product_data['price_info'][0];
+                    // Retrieve product dimension
+                    $weight         = $product_data['weight'];
+                    $dimension      = (array) $product_data['dimension'];
+                    $package_length = $dimension['package_length'];
+                    $package_width  = $dimension['package_width'];
+                    $package_height = $dimension['package_height'];
 
-                // Extract prices
-                $regular_price = $price_info['original_price'];
-                $sale_price    = $price_info['current_price'];
+                    // Retrieve logistic_info
+                    $logistic_info = (array) $product_data['logistic_info'];
+                    // convert to json
+                    $logistic_info = json_encode( $logistic_info );
 
-                // Set up the API client with WooCommerce store URL and credentials
-                $client = new Client(
-                    $website_url,
-                    $consumer_key,
-                    $consumer_secret,
-                    [
-                        'verify_ssl' => false,
-                        'wp_api'     => true,
-                        'version'    => 'wc/v3',
-                        'timeout'    => 400,
-                    ]
-                );
+                    // Retrieve pre order info
+                    $pre_order_info = (array) $product_data['pre_order'];
+                    // convert to json
+                    $pre_order_info = json_encode( $pre_order_info );
 
-                // Check if the product already exists in WooCommerce
-                $args = array(
-                    'post_type'  => 'product',
-                    'meta_query' => array(
-                        array(
-                            'key'     => '_sku',
-                            'value'   => $sku,
-                            'compare' => '=',
+                    $condition      = (string) $product_data['condition'];
+                    $item_status    = (string) $product_data['item_status'];
+                    $has_model      = $product_data['has_model'];
+                    $brands         = (array) $product_data['brand'];
+                    $item_dangerous = $product_data['item_dangerous'];
+
+                    $description_info = (array) $product_data['description_info'];
+                    $description_type = (string) $product_data['description_type'];
+                    $description      = get_description_based_on_type( $description_info, $description_type );
+
+                    // Retrieve product category
+                    $category = '';
+
+                    // Retrieve product tags
+                    $tags = '';
+
+                    $price_info = [];
+                    if ( isset( $product_data['price_info'] ) ) {
+                        // get price info
+                        $price_info = $product_data['price_info'][0];
+                    }
+
+                    $regular_price = null;
+                    $sale_price    = null;
+                    if ( !empty( $price_info ) ) {
+                        // Extract prices
+                        $regular_price = $price_info['original_price'];
+                        $sale_price    = $price_info['current_price'];
+                    }
+
+                    // generate additional info
+                    $additional_info = [
+                        'item_sku'       => $item_sku,
+                        'image_id_list'  => $image_id_list,
+                        'weight'         => $weight,
+                        'package_length' => $package_length,
+                        'package_width'  => $package_width,
+                        'package_height' => $package_height,
+                        'logistic_info'  => $logistic_info,
+                        'pre_order'      => $pre_order_info,
+                        'condition'      => $condition,
+                        'item_status'    => $item_status,
+                        'has_model'      => $has_model,
+                        'brands'         => $brands,
+                        'item_dangerous' => $item_dangerous,
+                    ];
+
+                    // Set up the API client with WooCommerce store URL and credentials
+                    $client = new Client(
+                        $website_url,
+                        $consumer_key,
+                        $consumer_secret,
+                        [
+                            'verify_ssl' => false,
+                            'wp_api'     => true,
+                            'version'    => 'wc/v3',
+                            'timeout'    => 400,
+                        ]
+                    );
+
+                    // Check if the product already exists in WooCommerce
+                    $args = array(
+                        'post_type'  => 'product',
+                        'meta_query' => array(
+                            array(
+                                'key'     => '_sku',
+                                'value'   => $sku,
+                                'compare' => '=',
+                            ),
                         ),
-                    ),
-                );
-
-                // Check if the product already exists
-                $existing_products = new WP_Query( $args );
-
-                if ( $existing_products->have_posts() ) {
-                    $existing_products->the_post();
-
-                    // Get product id
-                    $_product_id = get_the_ID();
-
-                    // Update the status of the processed product in your database
-                    $wpdb->update(
-                        $products_table,
-                        [ 'status' => 'completed' ],
-                        [ 'id' => $serial_id ]
                     );
 
-                    // Update the simple product if it already exists
-                    $product_data = [
-                        'name'        => $title,
-                        'sku'         => $sku,
-                        'type'        => 'simple',
-                        'description' => $description,
-                        'attributes'  => [],
-                    ];
+                    // Check if the product already exists
+                    $existing_products = new WP_Query( $args );
 
-                    // Update product
-                    $client->put( 'products/' . $_product_id, $product_data );
+                    if ( $existing_products->have_posts() ) {
+                        $existing_products->the_post();
 
-                    // Return success response
-                    return new \WP_REST_Response( [
-                        'success' => true,
-                        'message' => 'Product updated successfully',
-                    ] );
+                        // Get product id
+                        $_product_id = get_the_ID();
 
-                } else {
-                    // Create a new simple product if it does not exist
-                    $_product_data = [
-                        'name'        => $title,
-                        'sku'         => $sku,
-                        'type'        => 'simple',
-                        'description' => $description,
-                        'attributes'  => [],
-                    ];
+                        // Update the status of the processed product in your database
+                        $wpdb->update(
+                            $products_table,
+                            [ 'status' => 'completed' ],
+                            [ 'id' => $serial_id ]
+                        );
 
-                    // Create the product
-                    $_products  = $client->post( 'products', $_product_data );
-                    $product_id = $_products->id;
+                        // Update the simple product if it already exists
+                        $product_data = [
+                            'name'        => $title,
+                            'sku'         => $sku,
+                            'type'        => 'simple',
+                            'description' => $description,
+                            'attributes'  => [],
+                        ];
 
-                    // Set product information
-                    wp_set_object_terms( $product_id, 'simple', 'product_type' );
-                    update_post_meta( $product_id, '_visibility', 'visible' );
+                        // Update product
+                        $client->put( 'products/' . $_product_id, $product_data );
 
-                    // Update product stock
-                    update_post_meta( $product_id, '_stock', $quantity );
+                        // update product additional information
+                        update_product_additional_info( $_product_id, $additional_info );
 
-                    // Update product prices
-                    update_post_meta( $product_id, '_regular_price', $regular_price );
-                    update_post_meta( $product_id, '_price', $sale_price );
+                        // Return success response
+                        return new \WP_REST_Response( [
+                            'success' => true,
+                            'message' => 'Product updated successfully',
+                        ] );
 
-                    // Update product category
-                    wp_set_object_terms( $product_id, $category, 'product_cat' );
-
-                    // Update product tags
-                    wp_set_object_terms( $product_id, $tags, 'product_tag' );
-
-                    // Display out of stock message if stock is 0
-                    if ( $quantity <= 0 ) {
-                        update_post_meta( $product_id, '_stock_status', 'outofstock' );
                     } else {
-                        update_post_meta( $product_id, '_stock_status', 'instock' );
+                        // Create a new simple product if it does not exist
+                        $_product_data = [
+                            'name'        => $title,
+                            'sku'         => $sku,
+                            'type'        => 'simple',
+                            'description' => $description,
+                            'attributes'  => [],
+                        ];
+
+                        // Create the product
+                        $_products  = $client->post( 'products', $_product_data );
+                        $product_id = $_products->id;
+
+                        // Set product information
+                        wp_set_object_terms( $product_id, 'simple', 'product_type' );
+                        update_post_meta( $product_id, '_visibility', 'visible' );
+
+                        // Update product stock
+                        update_post_meta( $product_id, '_stock', $quantity );
+
+                        // Update product prices
+                        update_post_meta( $product_id, '_regular_price', $regular_price );
+                        update_post_meta( $product_id, '_price', $sale_price );
+
+                        // Update product category
+                        wp_set_object_terms( $product_id, $category, 'product_cat' );
+
+                        // Update product tags
+                        wp_set_object_terms( $product_id, $tags, 'product_tag' );
+
+                        // Display out of stock message if stock is 0
+                        if ( $quantity <= 0 ) {
+                            update_post_meta( $product_id, '_stock_status', 'outofstock' );
+                        } else {
+                            update_post_meta( $product_id, '_stock_status', 'instock' );
+                        }
+                        update_post_meta( $product_id, '_manage_stock', 'yes' );
+
+                        // Set product image gallery and thumbnail
+                        if ( $images ) {
+                            set_product_images( $product_id, $images );
+                        }
+
+                        // update product additional information
+                        update_product_additional_info( $product_id, $additional_info );
+
+                        // Update the status of product in database
+                        $wpdb->update(
+                            $products_table,
+                            [ 'status' => 'completed' ],
+                            [ 'id' => $serial_id ]
+                        );
+
+                        // Return success response
+                        return new \WP_REST_Response( [
+                            'success' => true,
+                            'message' => 'Product import successfully',
+                        ] );
                     }
-                    update_post_meta( $product_id, '_manage_stock', 'yes' );
+                } else {
 
-                    // Set product image gallery and thumbnail
-                    if ( $images ) {
-                        set_product_images( $product_id, $images );
-                    }
-
-                    // Update the status of product in database
-                    $wpdb->update(
-                        $products_table,
-                        [ 'status' => 'completed' ],
-                        [ 'id' => $serial_id ]
-                    );
-
-                    // Return success response
                     return new \WP_REST_Response( [
-                        'success' => true,
-                        'message' => 'Product import successfully',
+                        'success' => false,
+                        'message' => 'No product found.',
                     ] );
                 }
             }
@@ -218,6 +301,164 @@ function products_import_woocommerce() {
     }
 }
 
+/**
+ * Update product additional information.
+ *
+ * @param int   $_product_id      The product ID.
+ * @param array $additional_info  The array containing additional product information.
+ */
+function update_product_additional_info( $_product_id, $additional_info ) {
+    // Update weight
+    if ( isset( $additional_info['weight'] ) ) {
+        update_post_meta( $_product_id, '_weight', $additional_info['weight'] );
+    }
+
+    // Update package length
+    if ( isset( $additional_info['package_length'] ) ) {
+        update_post_meta( $_product_id, '_length', $additional_info['package_length'] );
+    }
+
+    // Update package width
+    if ( isset( $additional_info['package_width'] ) ) {
+        update_post_meta( $_product_id, '_width', $additional_info['package_width'] );
+    }
+
+    // Update package height
+    if ( isset( $additional_info['package_height'] ) ) {
+        update_post_meta( $_product_id, '_height', $additional_info['package_height'] );
+    }
+
+    // Update logistic info (if it's a serialized array or other data type)
+    if ( isset( $additional_info['logistic_info'] ) ) {
+        update_post_meta( $_product_id, '_logistic_info', maybe_serialize( $additional_info['logistic_info'] ) );
+    }
+
+    // Update pre-order info
+    if ( isset( $additional_info['pre_order'] ) ) {
+        update_post_meta( $_product_id, '_pre_order', $additional_info['pre_order'] );
+    }
+
+    // Update condition
+    if ( isset( $additional_info['condition'] ) ) {
+        update_post_meta( $_product_id, '_condition', $additional_info['condition'] );
+    }
+
+    // Update item status
+    if ( isset( $additional_info['item_status'] ) ) {
+        update_post_meta( $_product_id, '_item_status', $additional_info['item_status'] );
+    }
+
+    // Update has model
+    if ( isset( $additional_info['has_model'] ) ) {
+        update_post_meta( $_product_id, '_has_model', $additional_info['has_model'] );
+    }
+
+    // Update brands
+    if ( isset( $additional_info['brands'] ) ) {
+        update_post_meta( $_product_id, '_brands', maybe_serialize( $additional_info['brands'] ) );
+    }
+
+    // Update item dangerous flag
+    if ( isset( $additional_info['item_dangerous'] ) ) {
+        update_post_meta( $_product_id, '_item_dangerous', $additional_info['item_dangerous'] );
+    }
+
+    // Update item SKU
+    if ( isset( $additional_info['item_sku'] ) ) {
+        update_post_meta( $_product_id, '_sku', $additional_info['item_sku'] );
+    }
+
+    // Update image ID list (assuming it's a serialized array)
+    if ( isset( $additional_info['image_id_list'] ) ) {
+        update_post_meta( $_product_id, '_image_id_list', maybe_serialize( $additional_info['image_id_list'] ) );
+    }
+}
+
+/**
+ * Get description based on the description type.
+ *
+ * @param array  $description_info Array containing the description information.
+ * @param string $description_type The type of the description (e.g., 'extended', 'short', 'technical').
+ * @return string The actual description text based on the type or a fallback message.
+ */
+function get_description_based_on_type( $description_info, $description_type ) {
+    // Initialize the description text as empty or a default message
+    $description_text = '';
+
+    // Check if the description info and type are available
+    if ( !empty( $description_info ) && !empty( $description_type ) ) {
+        switch ($description_type) {
+            case 'extended':
+                if ( isset( $description_info['extended_description']['field_list'][0]['text'] ) ) {
+                    $description_text = $description_info['extended_description']['field_list'][0]['text'];
+                }
+                break;
+
+            case 'short':
+                if ( isset( $description_info['short_description']['field_list'][0]['text'] ) ) {
+                    $description_text = $description_info['short_description']['field_list'][0]['text'];
+                }
+                break;
+
+            case 'technical':
+                if ( isset( $description_info['technical_description']['field_list'][0]['text'] ) ) {
+                    $description_text = $description_info['technical_description']['field_list'][0]['text'];
+                }
+                break;
+
+            // Add other cases for different description types as needed
+            default:
+                $description_text = '';
+                break;
+        }
+    }
+
+    return $description_text;
+}
+
+/**
+ * Get the base information of a single product from shopee api.
+ * @param mixed $product_id
+ * @return bool|string
+ */
+function get_single_product_base_info( $product_id ) {
+
+    global $shopee_base_url, $shopee_partner_id, $shopee_shop_id;
+
+    // get the shopee credentials file path
+    $file_path = BULK_PRODUCT_IMPORT_PLUGIN_URL . "/inc/auth/signs.json";
+    // decode the json file
+    $signs_data = json_decode( file_get_contents( $file_path ), true );
+    // get the item list
+    $item_data = $signs_data['get_item_base_info'];
+
+    // get the access token
+    $access_token = $item_data['access_token'];
+    // get the timestamp
+    $timestamp = $item_data['timestamp'];
+    $sign      = $item_data['sign'];
+
+    $url = sprintf( "%s/api/v2/product/get_item_base_info?access_token=%s&partner_id=%s&shop_id=%s&sign=%s&timestamp=%s&item_id_list=%s", $shopee_base_url, $access_token, $shopee_partner_id, $shopee_shop_id, $sign, $timestamp, $product_id );
+
+    $curl = curl_init();
+    curl_setopt_array( $curl, array(
+        CURLOPT_URL            => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING       => '',
+        CURLOPT_MAXREDIRS      => 10,
+        CURLOPT_TIMEOUT        => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST  => 'GET',
+        CURLOPT_HTTPHEADER     => array(),
+    ) );
+
+    $response = curl_exec( $curl );
+    // put_program_logs( 'Response for get_single_product_base_info: ' . $response );
+
+    curl_close( $curl );
+    return $response;
+}
 
 /**
  * Set Product Images
