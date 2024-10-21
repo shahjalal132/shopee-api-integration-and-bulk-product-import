@@ -57,6 +57,7 @@ function products_import_woocommerce() {
                 // get product info from api
                 $product_info = get_single_product_base_info( $sku );
                 $product_info = json_decode( $product_info, true );
+                $product_data = [];
                 if ( isset( $product_info['response'] ) ) {
                     $response     = $product_info['response'];
                     $product_data = $response['item_list'][0];
@@ -120,8 +121,18 @@ function products_import_woocommerce() {
                     $description_type = (string) $product_data['description_type'];
                     $description      = get_description_based_on_type( $description_info, $description_type );
 
+                    // get category id
+                    $category_id = $product_data['category_id'];
                     // Retrieve product category
-                    $category = '';
+                    $category = (array) get_category_name_by_id( $category_id );
+
+                    $category_name        = '';
+                    $parent_category_name = '';
+                    if ( !empty( $category ) ) {
+                        // Retrieve the category names
+                        $category_name        = (string) $category['category_name'];
+                        $parent_category_name = (string) $category['parent_category_name'];
+                    }
 
                     // Retrieve product tags
                     $tags = '';
@@ -210,6 +221,18 @@ function products_import_woocommerce() {
                         // Update product
                         $client->put( 'products/' . $_product_id, $product_data );
 
+                        // Check if both category and parent category exist
+                        if ( !empty( $category_name ) && !empty( $parent_category_name ) ) {
+                            // Save both parent and child categories
+                            wp_set_object_terms( $_product_id, [ $parent_category_name, $category_name ], 'product_cat' );
+                        } elseif ( !empty( $category_name ) ) {
+                            // Save only the child category if no parent category
+                            wp_set_object_terms( $_product_id, $category_name, 'product_cat' );
+                        } elseif ( !empty( $parent_category_name ) ) {
+                            // Save only the parent category if no child category
+                            wp_set_object_terms( $_product_id, $parent_category_name, 'product_cat' );
+                        }
+
                         // update product additional information
                         update_product_additional_info( $_product_id, $additional_info );
 
@@ -244,8 +267,17 @@ function products_import_woocommerce() {
                         update_post_meta( $product_id, '_regular_price', $regular_price );
                         update_post_meta( $product_id, '_price', $sale_price );
 
-                        // Update product category
-                        wp_set_object_terms( $product_id, $category, 'product_cat' );
+                        // Check if both category and parent category exist
+                        if ( !empty( $category_name ) && !empty( $parent_category_name ) ) {
+                            // Save both parent and child categories
+                            wp_set_object_terms( $product_id, [ $parent_category_name, $category_name ], 'product_cat' );
+                        } elseif ( !empty( $category_name ) ) {
+                            // Save only the child category if no parent category
+                            wp_set_object_terms( $product_id, $category_name, 'product_cat' );
+                        } elseif ( !empty( $parent_category_name ) ) {
+                            // Save only the parent category if no child category
+                            wp_set_object_terms( $product_id, $parent_category_name, 'product_cat' );
+                        }
 
                         // Update product tags
                         wp_set_object_terms( $product_id, $tags, 'product_tag' );
@@ -299,6 +331,76 @@ function products_import_woocommerce() {
             'message' => 'Product import failed.',
         ] );
     }
+}
+
+/**
+ * Get Category Name from db by id
+ *
+ * @param int $category_id
+ * @return array
+ */
+function get_category_name_by_id( $category_id ) {
+    global $wpdb;
+    $table_prefix = get_option( 'be-table-prefix' ) ?? '';
+    $table_name   = $wpdb->prefix . $table_prefix . 'sync_category';
+
+    // sql query
+    $sql = "SELECT category_id, parent_category_id, category_name FROM $table_name WHERE category_id = $category_id";
+
+    // get results
+    $category_result = $wpdb->get_results( $sql );
+
+    if ( !empty( $category_result ) ) {
+        // get parent category id
+        $parent_category_id = $category_result[0]->parent_category_id;
+
+        $parent_category_name = '';
+        if ( $parent_category_id > 0 ) {
+            // get parent category name by id
+            $parent_category_name = get_parent_category_name_by_id( $parent_category_id );
+        }
+
+        // get category name
+        $category_name = $category_result[0]->category_name;
+
+        // generate result
+        $result = [
+            'parent_category_name' => $parent_category_name,
+            'category_name'        => $category_name,
+        ];
+
+        // return result
+        return $result;
+    }
+
+    // return empty result
+    return [];
+}
+
+/**
+ * Get Parent Category Name from db by id
+ * @param int $category_id
+ * @return string
+ */
+function get_parent_category_name_by_id( $category_id ) {
+    global $wpdb;
+    $table_prefix = get_option( 'be-table-prefix' ) ?? '';
+    $table_name   = $wpdb->prefix . $table_prefix . 'sync_category';
+
+    // sql query
+    $sql = "SELECT category_name FROM $table_name WHERE category_id = $category_id";
+
+    // get results
+    $category_result = $wpdb->get_results( $sql );
+
+    $parent_category_name = '';
+    if ( !empty( $category_result ) ) {
+        // get category name
+        $parent_category_name = $category_result[0]->category_name;
+    }
+
+    // return parent category name
+    return $parent_category_name;
 }
 
 /**
@@ -365,7 +467,7 @@ function update_product_additional_info( $_product_id, $additional_info ) {
 
     // Update item SKU
     if ( isset( $additional_info['item_sku'] ) ) {
-        update_post_meta( $_product_id, '_sku', $additional_info['item_sku'] );
+        update_post_meta( $_product_id, '_item_sku', $additional_info['item_sku'] );
     }
 
     // Update image ID list (assuming it's a serialized array)
