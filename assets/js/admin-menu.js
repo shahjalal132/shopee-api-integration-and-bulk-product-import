@@ -176,6 +176,15 @@
       });
 
     document
+      .getElementById("insert-products-cp")
+      .addEventListener("click", function () {
+        let insertProductsDb =
+          document.getElementById("insert-products-api").textContent;
+        copyToClipboard(insertProductsDb);
+        showNotification("Copied to clipboard!");
+      });
+
+    document
       .getElementById("insert-price-cp")
       .addEventListener("click", function () {
         let syncProducts =
@@ -190,6 +199,15 @@
         let syncProducts =
           document.getElementById("insert-stock-api").textContent;
         copyToClipboard(syncProducts);
+        showNotification("Copied to clipboard!");
+      });
+
+    document
+      .getElementById("sign_generate_cp")
+      .addEventListener("click", function () {
+        let signGenerate =
+          document.getElementById("sign-generate-api").textContent;
+        copyToClipboard(signGenerate);
         showNotification("Copied to clipboard!");
       });
   });

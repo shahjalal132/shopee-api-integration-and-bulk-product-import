@@ -113,4 +113,17 @@ $base_url = get_option( 'home' ) ?? '';
             </button>
         </td>
     </tr>
+    <tr>
+        <?php
+        // Define the sync products endpoint
+        $sign_generate = esc_url( $base_url . "/wp-json/bulk-import/v1/sign-generate" );
+        ?>
+        <td id="sign-generate-api"><?= $sign_generate; ?></td>
+        <td><?php esc_html_e( 'Sign Generate', 'bulk-product-import' ); ?></td>
+        <td>
+            <button type="button" id="sign_generate_cp" class="btn btn-primary btn-sm">
+                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
+            </button>
+        </td>
+    </tr>
 </table>
