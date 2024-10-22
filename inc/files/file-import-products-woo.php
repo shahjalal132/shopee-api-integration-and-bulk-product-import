@@ -56,6 +56,7 @@ function products_import_woocommerce() {
 
                 // get product info from api
                 $product_info = get_single_product_base_info( $sku );
+                // put_program_logs( 'Product Info:' . $product_info );
                 $product_info = json_decode( $product_info, true );
                 $product_data = [];
                 if ( isset( $product_info['response'] ) ) {
