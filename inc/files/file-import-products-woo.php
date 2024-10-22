@@ -222,6 +222,10 @@ function products_import_woocommerce() {
                         // Update product
                         $client->put( 'products/' . $_product_id, $product_data );
 
+                        // Update product prices
+                        update_post_meta( $_product_id, '_regular_price', $regular_price );
+                        update_post_meta( $_product_id, '_price', $sale_price );
+
                         // Check if both category and parent category exist
                         if ( !empty( $category_name ) && !empty( $parent_category_name ) ) {
                             // Save both parent and child categories
@@ -316,7 +320,7 @@ function products_import_woocommerce() {
 
                     return new \WP_REST_Response( [
                         'success' => false,
-                        'message' => 'No product found.',
+                        'message' => 'No product found. Invalid timestamp.',
                     ] );
                 }
             }
