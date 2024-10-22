@@ -1,1 +1,56 @@
-{"get_item_list":{"path":"/api/v2/product/get_item_list","access_token":"79736d54716642675852786a6c684556","timestamp":1729587775,"sign":"f9a957dbff03f976ea559507f8c4018c2cc7bf298eb5b81fc58effb3349d8c51"},"get_item_base_info":{"path":"/api/v2/product/get_item_base_info","access_token":"79736d54716642675852786a6c684556","timestamp":1729587775,"sign":"30c5aa511154ac83bc46665da8b5df89a21387127fed3c48ee18ebb10c2db511"},"get_category":{"path":"/api/v2/product/get_category","access_token":"79736d54716642675852786a6c684556","timestamp":1729587775,"sign":"c07275984aff1b7ae1a13e6b6aea0494746abd4cf884b9bd3cb8749dbfc70585"},"get_order_list":{"path":"/api/v2/order/get_order_list","access_token":"79736d54716642675852786a6c684556","timestamp":1729587775,"sign":"fd1049d7e7c87eea6d016c02dd2a4be8aad140b838e01cae7e98e4051b62d05d"},"get_order_detail":{"path":"/api/v2/order/get_order_detail","access_token":"79736d54716642675852786a6c684556","timestamp":1729587775,"sign":"bae54a996a412d80d292c26b5ee39266fc470a2e992c7cab57eed70a0938f103"},"get_variations":{"path":"/api/v2/product/get_variations","access_token":"79736d54716642675852786a6c684556","timestamp":1729587775,"sign":"11f7fdca365e7f2a06fccc56cce3ff6b1c11fb69efe181b835f99404f6fe43ea"},"get_variation_tree":{"path":"/api/v2/product/get_variation_tree","access_token":"79736d54716642675852786a6c684556","timestamp":1729587775,"sign":"307250451ef65095c852dddc51283c7ade060ff95d27dcd7c9f4546870eef005"},"get_attributes":{"path":"/api/v2/product/get_attributes","access_token":"79736d54716642675852786a6c684556","timestamp":1729587775,"sign":"e3420cb72b17caab7633123096072c6344c2c786aa2ea513156af85254c020f3"}}
+{
+    "get_item_list": {
+        "path": "/api/v2/product/get_item_list",
+        "access_token": "4652634454446b797165705a4e504a57",
+        "timestamp": 1729603535,
+        "sign": "65901f42fc0d6a08d76a6a6c3efb18434d429fef7f6884c442e0a1c41e94ac5f"
+    },
+    "get_item_base_info": {
+        "path": "/api/v2/product/get_item_base_info",
+        "access_token": "4652634454446b797165705a4e504a57",
+        "timestamp": 1729603535,
+        "sign": "9e686aad2f422a735c740586308fc3d396289b2960aa2dc781a4598b16b1d634"
+    },
+    "get_category": {
+        "path": "/api/v2/product/get_category",
+        "access_token": "4652634454446b797165705a4e504a57",
+        "timestamp": 1729603535,
+        "sign": "e2752b2024490b5d52a037a06693c2f3782f5206dfc5ffcc7026f9feda9f71ab"
+    },
+    "get_order_list": {
+        "path": "/api/v2/order/get_order_list",
+        "access_token": "4652634454446b797165705a4e504a57",
+        "timestamp": 1729603535,
+        "sign": "6f789b548e1998dc489ffebe511c52529c50366fd1e3dab6e53c0f0336dbf9a8"
+    },
+    "get_order_detail": {
+        "path": "/api/v2/order/get_order_detail",
+        "access_token": "4652634454446b797165705a4e504a57",
+        "timestamp": 1729603535,
+        "sign": "9d1be4540442007281f4158984004963401e957c82047ac65be4271495678bfe"
+    },
+    "get_variations": {
+        "path": "/api/v2/product/get_variations",
+        "access_token": "4652634454446b797165705a4e504a57",
+        "timestamp": 1729603535,
+        "sign": "82b93b7965348462c99c6203ca1fb76efa66a4cd36e9be23ef7d2e136da8a8a6"
+    },
+    "get_variation_tree": {
+        "path": "/api/v2/product/get_variation_tree",
+        "access_token": "4652634454446b797165705a4e504a57",
+        "timestamp": 1729603535,
+        "sign": "2ecee532fcc6defc65cd6dc44d5b09c317c173f4fab5cb91a696cdb1cd489635"
+    },
+    "get_attributes": {
+        "path": "/api/v2/product/get_attributes",
+        "access_token": "4652634454446b797165705a4e504a57",
+        "timestamp": 1729603535,
+        "sign": "8625d692d66a9341e259c681a3ad660795fa925427b44e33f4c0085ff5a7fc30"
+    },
+    "get_item_extra_info": {
+        "path": "/api/v2/product/get_item_extra_info",
+        "access_token": "4652634454446b797165705a4e504a57",
+        "timestamp": 1729603535,
+        "sign": "62319095a5250298afdc26352455221fab1370f9876d052dec72f68b9fe17070"
+    }
+}

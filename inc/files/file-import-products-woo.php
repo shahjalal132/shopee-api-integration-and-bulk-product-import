@@ -68,6 +68,7 @@ function products_import_woocommerce() {
                     // get product title
                     $title       = $product_data['item_name'];
                     $item_sku    = $product_data['item_sku'];
+                    // $sku         = $item_sku;
                     $description = '';
 
                     // init stock
@@ -545,7 +546,7 @@ function get_single_product_base_info( $product_id ) {
     $timestamp = $item_data['timestamp'];
     $sign      = $item_data['sign'];
 
-    $url = sprintf( "%s/api/v2/product/get_item_base_info?access_token=%s&partner_id=%s&shop_id=%s&sign=%s&timestamp=%s&item_id_list=%s", $shopee_base_url, $access_token, $shopee_partner_id, $shopee_shop_id, $sign, $timestamp, $product_id );
+    $url = sprintf( "%s/api/v2/product/get_item_base_info?access_token=%s&partner_id=%s&shop_id=%s&sign=%s&timestamp=%s&item_id_list=%s&need_tax_info=true&need_complaint_policy=true", $shopee_base_url, $access_token, $shopee_partner_id, $shopee_shop_id, $sign, $timestamp, $product_id );
 
     $curl = curl_init();
     curl_setopt_array( $curl, array(
