@@ -1,56 +1,56 @@
 {
     "get_item_list": {
         "path": "/api/v2/product/get_item_list",
-        "access_token": "4652634454446b797165705a4e504a57",
-        "timestamp": 1729603535,
-        "sign": "65901f42fc0d6a08d76a6a6c3efb18434d429fef7f6884c442e0a1c41e94ac5f"
+        "access_token": "6a7166416c596a6b5547785955746f4b",
+        "timestamp": 1729655993,
+        "sign": "a1b6ce6ee22972252a1c8a013e9d504ed6afa51998c5a31bf041bea267e68652"
     },
     "get_item_base_info": {
         "path": "/api/v2/product/get_item_base_info",
-        "access_token": "4652634454446b797165705a4e504a57",
-        "timestamp": 1729603535,
-        "sign": "9e686aad2f422a735c740586308fc3d396289b2960aa2dc781a4598b16b1d634"
+        "access_token": "6a7166416c596a6b5547785955746f4b",
+        "timestamp": 1729655993,
+        "sign": "e32b84530e75f1e17752bd87067825a05fcbff58e21de5a917fc07eb8f399f67"
     },
     "get_category": {
         "path": "/api/v2/product/get_category",
-        "access_token": "4652634454446b797165705a4e504a57",
-        "timestamp": 1729603535,
-        "sign": "e2752b2024490b5d52a037a06693c2f3782f5206dfc5ffcc7026f9feda9f71ab"
+        "access_token": "6a7166416c596a6b5547785955746f4b",
+        "timestamp": 1729655993,
+        "sign": "ddd1a316fe2c2c1ff17ecd7461fe7cfab6967f2cb7668833b573afef0bdfe866"
     },
     "get_order_list": {
         "path": "/api/v2/order/get_order_list",
-        "access_token": "4652634454446b797165705a4e504a57",
-        "timestamp": 1729603535,
-        "sign": "6f789b548e1998dc489ffebe511c52529c50366fd1e3dab6e53c0f0336dbf9a8"
+        "access_token": "6a7166416c596a6b5547785955746f4b",
+        "timestamp": 1729655993,
+        "sign": "cdd309352107187d7bfff48f2ada9edddd14f84d398ccb29026f56c9f4667764"
     },
     "get_order_detail": {
         "path": "/api/v2/order/get_order_detail",
-        "access_token": "4652634454446b797165705a4e504a57",
-        "timestamp": 1729603535,
-        "sign": "9d1be4540442007281f4158984004963401e957c82047ac65be4271495678bfe"
+        "access_token": "6a7166416c596a6b5547785955746f4b",
+        "timestamp": 1729655993,
+        "sign": "e737ba6bf3cbcbd0e0c49ddf47069db8ec059328ba049631130c9d5ff4918843"
     },
     "get_variations": {
         "path": "/api/v2/product/get_variations",
-        "access_token": "4652634454446b797165705a4e504a57",
-        "timestamp": 1729603535,
-        "sign": "82b93b7965348462c99c6203ca1fb76efa66a4cd36e9be23ef7d2e136da8a8a6"
+        "access_token": "6a7166416c596a6b5547785955746f4b",
+        "timestamp": 1729655993,
+        "sign": "a7b2ee5bfcd05134274c6835903dbafbcb99ee53084464c5627efebb2462fd5d"
     },
     "get_variation_tree": {
         "path": "/api/v2/product/get_variation_tree",
-        "access_token": "4652634454446b797165705a4e504a57",
-        "timestamp": 1729603535,
-        "sign": "2ecee532fcc6defc65cd6dc44d5b09c317c173f4fab5cb91a696cdb1cd489635"
+        "access_token": "6a7166416c596a6b5547785955746f4b",
+        "timestamp": 1729655993,
+        "sign": "837cb5523dd2ca2d96e012604200c5ce0ff44a8d56e597ca050fa6be860e1273"
     },
     "get_attributes": {
         "path": "/api/v2/product/get_attributes",
-        "access_token": "4652634454446b797165705a4e504a57",
-        "timestamp": 1729603535,
-        "sign": "8625d692d66a9341e259c681a3ad660795fa925427b44e33f4c0085ff5a7fc30"
+        "access_token": "6a7166416c596a6b5547785955746f4b",
+        "timestamp": 1729655993,
+        "sign": "2ef418490a9753bb638c5047df1a0e5c5fb87d39af2d20fa01e1e10f0de72fc3"
     },
     "get_item_extra_info": {
         "path": "/api/v2/product/get_item_extra_info",
-        "access_token": "4652634454446b797165705a4e504a57",
-        "timestamp": 1729603535,
-        "sign": "62319095a5250298afdc26352455221fab1370f9876d052dec72f68b9fe17070"
+        "access_token": "6a7166416c596a6b5547785955746f4b",
+        "timestamp": 1729655993,
+        "sign": "81f163feb59800a60ca0b390c77477952b5efc3756019ed7edaa2a8c61c12e6f"
     }
 }

@@ -125,12 +125,74 @@ function remove_sync_category() {
     $wpdb->query( $sql );
 }
 
+function create_sync_order_list() {
+
+    global $wpdb;
+    $table_prefix    = get_option( 'be-table-prefix' ) ?? '';
+    $table_name      = $wpdb->prefix . $table_prefix . 'sync_order_list';
+    $charset_collate = $wpdb->get_charset_collate();
+
+    $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        id INT AUTO_INCREMENT,
+        order_sn VARCHAR(255) NOT NULL,
+        status VARCHAR(20) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)
+    ) $charset_collate;";
+
+    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+    dbDelta( $sql );
+}
+
+// Remove sync_products Table when plugin deactivated
+function remove_sync_order_list() {
+
+    global $wpdb;
+    $table_prefix = get_option( 'be-table-prefix' ) ?? '';
+    $table_name   = $wpdb->prefix . $table_prefix . 'sync_order_list';
+    $sql          = "DROP TABLE IF EXISTS $table_name;";
+    $wpdb->query( $sql );
+}
+
+function create_sync_order_details() {
+
+    global $wpdb;
+    $table_prefix    = get_option( 'be-table-prefix' ) ?? '';
+    $table_name      = $wpdb->prefix . $table_prefix . 'sync_order_details';
+    $charset_collate = $wpdb->get_charset_collate();
+
+    $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        id INT AUTO_INCREMENT,
+        order_sn VARCHAR(255) NOT NULL,
+        order_details TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)
+    ) $charset_collate;";
+
+    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+    dbDelta( $sql );
+}
+
+// Remove sync_products Table when plugin deactivated
+function remove_sync_order_details() {
+
+    global $wpdb;
+    $table_prefix = get_option( 'be-table-prefix' ) ?? '';
+    $table_name   = $wpdb->prefix . $table_prefix . 'sync_order_details';
+    $sql          = "DROP TABLE IF EXISTS $table_name;";
+    $wpdb->query( $sql );
+}
+
 
 function create_db_tables() {
     sync_products();
     sync_stock();
     sync_price();
     create_sync_category();
+    create_sync_order_list();
+    create_sync_order_details();
 }
 
 function remove_db_tables() {
@@ -138,4 +200,6 @@ function remove_db_tables() {
     remove_sync_stock();
     remove_sync_price();
     remove_sync_category();
+    remove_sync_order_list();
+    remove_sync_order_details();
 }
