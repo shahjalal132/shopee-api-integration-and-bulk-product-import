@@ -126,4 +126,52 @@ $base_url = get_option( 'home' ) ?? '';
             </button>
         </td>
     </tr>
+    <tr>
+        <?php
+        $insert_categories = esc_url( $base_url . "/wp-json/bulk-import/v1/insert-category-db" );
+        ?>
+        <td id="insert_category"><?= $insert_categories; ?></td>
+        <td><?php esc_html_e( 'Insert Categories DB', 'bulk-product-import' ); ?></td>
+        <td>
+            <button type="button" id="insert_categories_cp" class="btn btn-primary btn-sm">
+                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <?php
+        $insert_order_list = esc_url( $base_url . "/wp-json/bulk-import/v1/insert-order-list-db" );
+        ?>
+        <td id="insert_order_list"><?= $insert_order_list; ?></td>
+        <td><?php esc_html_e( 'Insert Order List DB', 'bulk-product-import' ); ?></td>
+        <td>
+            <button type="button" id="insert_order_list_cp" class="btn btn-primary btn-sm">
+                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <?php
+        $insert_order_details = esc_url( $base_url . "/wp-json/bulk-import/v1/insert-order-details-db" );
+        ?>
+        <td id="insert_order_details"><?= $insert_order_details; ?></td>
+        <td><?php esc_html_e( 'Insert Order Details DB', 'bulk-product-import' ); ?></td>
+        <td>
+            <button type="button" id="insert_order_details_cp" class="btn btn-primary btn-sm">
+                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <?php
+        $sync_orders = esc_url( $base_url . "/wp-json/bulk-import/v1/sync-order" );
+        ?>
+        <td id="sync_orders"><?= $sync_orders; ?></td>
+        <td><?php esc_html_e( 'Sync Orders', 'bulk-product-import' ); ?></td>
+        <td>
+            <button type="button" id="sync_orders_cp" class="btn btn-primary btn-sm">
+                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
+            </button>
+        </td>
+    </tr>
 </table>

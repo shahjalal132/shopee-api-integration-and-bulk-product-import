@@ -75,7 +75,7 @@
     // handle db tables creation
     $("#shopee-credential-save").on("click", function (e) {
       e.preventDefault();
-      
+
       let shopee_base_url = $("#shopee_base_url").val();
       let shopee_partner_id = $("#shopee_partner_id").val();
       let shopee_partner_key = $("#shopee_partner_key").val();
@@ -92,10 +92,9 @@
           shopee_partner_id: shopee_partner_id,
           shopee_partner_key: shopee_partner_key,
           shopee_shop_id: shopee_shop_id,
-          shopee_access_token: shopee_access_token
+          shopee_access_token: shopee_access_token,
         },
         success: function (response) {
-
           let successMessage = response.data;
           // Display an info toast with no title
           showNotification(successMessage);
@@ -178,8 +177,9 @@
     document
       .getElementById("insert-products-cp")
       .addEventListener("click", function () {
-        let insertProductsDb =
-          document.getElementById("insert-products-api").textContent;
+        let insertProductsDb = document.getElementById(
+          "insert-products-api"
+        ).textContent;
         copyToClipboard(insertProductsDb);
         showNotification("Copied to clipboard!");
       });
@@ -208,6 +208,42 @@
         let signGenerate =
           document.getElementById("sign-generate-api").textContent;
         copyToClipboard(signGenerate);
+        showNotification("Copied to clipboard!");
+      });
+
+    document
+      .getElementById("insert_categories_cp")
+      .addEventListener("click", function () {
+        let insert_category_db =
+          document.getElementById("insert_category").textContent;
+        copyToClipboard(insert_category_db);
+        showNotification("Copied to clipboard!");
+      });
+
+    document
+      .getElementById("insert_order_list_cp")
+      .addEventListener("click", function () {
+        let insert_order_list =
+          document.getElementById("insert_order_list").textContent;
+        copyToClipboard(insert_order_list);
+        showNotification("Copied to clipboard!");
+      });
+
+    document
+      .getElementById("insert_order_details_cp")
+      .addEventListener("click", function () {
+        let insert_order_details = document.getElementById(
+          "insert_order_details"
+        ).textContent;
+        copyToClipboard(insert_order_details);
+        showNotification("Copied to clipboard!");
+      });
+
+    document
+      .getElementById("sync_orders_cp")
+      .addEventListener("click", function () {
+        let sync_orders = document.getElementById("sync_orders").textContent;
+        copyToClipboard(sync_orders);
         showNotification("Copied to clipboard!");
       });
   });
