@@ -167,6 +167,7 @@ function create_sync_order_details() {
         order_sn VARCHAR(255) NOT NULL UNIQUE,
         order_status VARCHAR(100) NULL,
         order_details TEXT NOT NULL,
+        status VARCHAR(20) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY (id)

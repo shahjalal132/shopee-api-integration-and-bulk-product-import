@@ -480,16 +480,18 @@ function insert_order_details_to_db() {
             $order_sn      = $order['order_sn'];
             $order_status  = $order['order_status'];
             $order_details = json_encode( $order );
+            $status        = 'pending';
 
-            // SQL query to insert data into table. On duplicate key update the order details
             $sql = $wpdb->prepare(
-                "INSERT INTO $order_details_table (order_sn, order_status, order_details) 
-                VALUES (%s, %s , %s) 
-                ON DUPLICATE KEY UPDATE order_details = %s",
+                "INSERT INTO $order_details_table (order_sn, order_status, order_details, status) 
+                VALUES (%s, %s , %s, %s) 
+                ON DUPLICATE KEY UPDATE order_details = %s, status = %s",
                 $order_sn,
                 $order_status,
                 $order_details,
-                $order_details
+                $status,
+                $order_details,
+                $status
             );
             $wpdb->query( $sql );
 
