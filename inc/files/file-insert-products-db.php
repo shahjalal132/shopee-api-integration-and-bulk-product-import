@@ -307,3 +307,86 @@ function insert_category_db() {
     }
 
 }
+
+// fetch order list from api
+function fetch_order_list_from_api() {
+
+    global $shopee_base_url, $shopee_partner_id, $shopee_shop_id;
+
+    // get the shopee credentials file path
+    $file_path = BULK_PRODUCT_IMPORT_PLUGIN_URL . "/inc/auth/signs.json";
+    // decode the json file
+    $signs_data = json_decode( file_get_contents( $file_path ), true );
+    // get the item list
+    $item_data = $signs_data['get_order_list'];
+
+    // get the access token
+    $access_token = $item_data['access_token'];
+    // get the timestamp
+    $timestamp = $item_data['timestamp'];
+    $sign      = $item_data['sign'];
+
+    // generate last 15 days timestamp
+    $time_from = strtotime( "-15 days" );
+    $time_to   = $timestamp;
+
+    $url = sprintf( "%s/api/v2/order/get_order_list?access_token=%s&page_size=100&partner_id=%s&request_order_status_pending=true&shop_id=%s&sign=%s&time_from=%s&time_range_field=create_time&time_to=%s&timestamp=%s", $shopee_base_url, $access_token, $shopee_partner_id, $shopee_shop_id, $sign, $time_from, $time_to, $timestamp );
+
+    $curl = curl_init();
+    curl_setopt_array( $curl, array(
+        CURLOPT_URL            => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING       => '',
+        CURLOPT_MAXREDIRS      => 10,
+        CURLOPT_TIMEOUT        => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST  => 'GET',
+        CURLOPT_HTTPHEADER     => array(),
+    ) );
+
+    $response = curl_exec( $curl );
+
+    curl_close( $curl );
+    return $response;
+}
+
+// insert category to database
+function insert_order_list_to_db() {
+
+    $api_response        = fetch_order_list_from_api();
+    $api_response_decode = json_decode( $api_response, true );
+    $order_list          = [];
+    if ( isset( $api_response_decode['response'] ) ) {
+        $response   = $api_response_decode['response'];
+        $order_list = $response['order_list'];
+    }
+
+    // Insert to database
+    global $wpdb;
+    $table_prefix     = get_option( 'be-table-prefix' ) ?? '';
+    $order_list_table = $wpdb->prefix . $table_prefix . 'sync_order_list';
+    truncate_table( $order_list_table );
+
+    if ( !empty( $order_list ) ) {
+        foreach ( $order_list as $order ) {
+
+            // get item sku
+            $order_sn = $order['order_sn'];
+
+            $wpdb->insert(
+                $order_list_table,
+                [
+                    'order_sn' => $order_sn,
+                    'status'   => 'Pending',
+                ]
+            );
+        }
+        return "<h4>Order list inserted successfully DB</h4>";
+    } else {
+        return "<h4>No Order list found</h4>";
+    }
+
+}
+
+// $url = sprintf("%s/api/v2/order/get_order_detail?access_token=%s&order_sn_list=%s&partner_id=%s&response_optional_fields=total_amount%2Cbuyer_user_id%2Cbuyer_username%2Cestimated_shipping_fee%2Crecipient_address%2Cactual_shipping_fee&shop_id=%s&sign=%s&timestamp=%s", $shopee_base_url, $access_token, $order_sn_list, $shopee_partner_id, $shopee_shop_id, $sign, $timestamp );
