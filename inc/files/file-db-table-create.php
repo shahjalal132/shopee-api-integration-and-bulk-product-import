@@ -134,7 +134,7 @@ function create_sync_order_list() {
 
     $sql = "CREATE TABLE IF NOT EXISTS $table_name (
         id INT AUTO_INCREMENT,
-        order_sn VARCHAR(255) NOT NULL,
+        order_sn VARCHAR(255) NOT NULL UNIQUE,
         status VARCHAR(20) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -164,7 +164,7 @@ function create_sync_order_details() {
 
     $sql = "CREATE TABLE IF NOT EXISTS $table_name (
         id INT AUTO_INCREMENT,
-        order_sn VARCHAR(255) NOT NULL,
+        order_sn VARCHAR(255) NOT NULL UNIQUE,
         order_details TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

@@ -351,7 +351,7 @@ function fetch_order_list_from_api() {
     return $response;
 }
 
-// insert category to database
+// insert order list to database
 function insert_order_list_to_db() {
 
     $api_response        = fetch_order_list_from_api();
@@ -378,7 +378,7 @@ function insert_order_list_to_db() {
                 $order_list_table,
                 [
                     'order_sn' => $order_sn,
-                    'status'   => 'Pending',
+                    'status'   => 'pending',
                 ]
             );
         }
@@ -389,4 +389,123 @@ function insert_order_list_to_db() {
 
 }
 
-// $url = sprintf("%s/api/v2/order/get_order_detail?access_token=%s&order_sn_list=%s&partner_id=%s&response_optional_fields=total_amount%2Cbuyer_user_id%2Cbuyer_username%2Cestimated_shipping_fee%2Crecipient_address%2Cactual_shipping_fee&shop_id=%s&sign=%s&timestamp=%s", $shopee_base_url, $access_token, $order_sn_list, $shopee_partner_id, $shopee_shop_id, $sign, $timestamp );
+// get order list from database
+function get_order_list_from_db() {
+
+    $limit = 10;
+
+    global $wpdb;
+    $table_prefix     = get_option( 'be-table-prefix' ) ?? '';
+    $order_list_table = $wpdb->prefix . $table_prefix . 'sync_order_list';
+
+    $sql        = "SELECT order_sn FROM $order_list_table WHERE status = 'pending' LIMIT $limit";
+    $order_list = $wpdb->get_results( $sql );
+
+    return $order_list;
+}
+
+// fetch order details from api
+function fetch_order_details_from_api() {
+
+    global $shopee_base_url, $shopee_partner_id, $shopee_shop_id;
+
+    // get the shopee credentials file path
+    $file_path = BULK_PRODUCT_IMPORT_PLUGIN_URL . "/inc/auth/signs.json";
+    // decode the json file
+    $signs_data = json_decode( file_get_contents( $file_path ), true );
+    // get the item list
+    $item_data = $signs_data['get_order_detail'];
+
+    // get the access token
+    $access_token = $item_data['access_token'];
+    // get the timestamp
+    $timestamp = $item_data['timestamp'];
+    $sign      = $item_data['sign'];
+
+    // initialize order sn list
+    $order_sn_list = "";
+    // get order list from database
+    $order_list = get_order_list_from_db();
+    // get order sn list
+    if ( !empty( $order_list ) ) {
+        foreach ( $order_list as $order ) {
+            $order_sn_list .= $order->order_sn . ',';
+        }
+    }
+    // remove the last comma
+    $order_sn_list = rtrim( $order_sn_list, ',' );
+
+    $url = sprintf( "%s/api/v2/order/get_order_detail?access_token=%s&order_sn_list=%s&partner_id=%s&response_optional_fields=total_amount,buyer_user_id,buyer_username,estimated_shipping_fee,recipient_address,note,note_update_time,item_list,pickup_done_time,package_list,shipping_carrier,payment_method,invoice_data&shop_id=%s&sign=%s&timestamp=%s", $shopee_base_url, $access_token, $order_sn_list, $shopee_partner_id, $shopee_shop_id, $sign, $timestamp );
+
+    $curl = curl_init();
+    curl_setopt_array( $curl, array(
+        CURLOPT_URL            => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING       => '',
+        CURLOPT_MAXREDIRS      => 10,
+        CURLOPT_TIMEOUT        => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST  => 'GET',
+        CURLOPT_HTTPHEADER     => array(),
+    ) );
+
+    $response = curl_exec( $curl );
+
+    curl_close( $curl );
+    return $response;
+}
+
+// insert order details to database
+function insert_order_details_to_db() {
+
+    $api_response = fetch_order_details_from_api();
+    put_program_logs( 'Order details response: ' . $api_response );
+    $api_response_decode = json_decode( $api_response, true );
+    $order_list          = [];
+    if ( isset( $api_response_decode['response'] ) ) {
+        $response   = $api_response_decode['response'];
+        $order_list = $response['order_list'];
+    }
+
+    // Insert to database
+    global $wpdb;
+    $table_prefix        = get_option( 'be-table-prefix' ) ?? '';
+    $order_list_table    = $wpdb->prefix . $table_prefix . 'sync_order_list';
+    $order_details_table = $wpdb->prefix . $table_prefix . 'sync_order_details';
+
+    if ( !empty( $order_list ) ) {
+        foreach ( $order_list as $order ) {
+
+            // get item sku
+            $order_sn      = $order['order_sn'];
+            $order_details = json_encode( $order );
+
+            // SQL query to insert data into table. On duplicate key update the order details
+            $sql = $wpdb->prepare(
+                "INSERT INTO $order_details_table (order_sn, order_details) 
+                VALUES (%s, %s) 
+                ON DUPLICATE KEY UPDATE order_details = %s",
+                $order_sn,
+                $order_details,
+                $order_details
+            );
+            $wpdb->query( $sql );
+
+            // complete status to complete in order list table
+            $wpdb->update(
+                $order_list_table,
+                [
+                    'status' => 'completed',
+                ],
+                [
+                    'order_sn' => $order_sn,
+                ]
+            );
+        }
+        return "<h4>Order Details inserted successfully DB</h4>";
+    } else {
+        return "<h4>No Order Details found</h4>";
+    }
+
+}
