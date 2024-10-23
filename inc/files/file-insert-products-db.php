@@ -459,8 +459,7 @@ function fetch_order_details_from_api() {
 // insert order details to database
 function insert_order_details_to_db() {
 
-    $api_response = fetch_order_details_from_api();
-    put_program_logs( 'Order details response: ' . $api_response );
+    $api_response        = fetch_order_details_from_api();
     $api_response_decode = json_decode( $api_response, true );
     $order_list          = [];
     if ( isset( $api_response_decode['response'] ) ) {
@@ -479,14 +478,16 @@ function insert_order_details_to_db() {
 
             // get item sku
             $order_sn      = $order['order_sn'];
+            $order_status  = $order['order_status'];
             $order_details = json_encode( $order );
 
             // SQL query to insert data into table. On duplicate key update the order details
             $sql = $wpdb->prepare(
-                "INSERT INTO $order_details_table (order_sn, order_details) 
-                VALUES (%s, %s) 
+                "INSERT INTO $order_details_table (order_sn, order_status, order_details) 
+                VALUES (%s, %s , %s) 
                 ON DUPLICATE KEY UPDATE order_details = %s",
                 $order_sn,
+                $order_status,
                 $order_details,
                 $order_details
             );
