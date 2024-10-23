@@ -374,6 +374,16 @@ function insert_order_list_to_db() {
             // get item sku
             $order_sn = $order['order_sn'];
 
+            /* $sql = $wpdb->prepare(
+                "INSERT INTO $order_list_table (order_sn, status) 
+                VALUES (%s, %s)
+                ON DUPLICATE KEY UPDATE status = %s",
+                $order_sn,
+                'pending',
+                'completed'
+            );
+            $wpdb->query( $sql ); */
+
             $wpdb->insert(
                 $order_list_table,
                 [
@@ -382,9 +392,9 @@ function insert_order_list_to_db() {
                 ]
             );
         }
-        return "<h4>Order list inserted successfully DB</h4>";
+        return "Order list inserted successfully DB";
     } else {
-        return "<h4>No Order list found</h4>";
+        return "No Order list found $api_response";
     }
 
 }
@@ -483,8 +493,8 @@ function insert_order_details_to_db() {
             $status        = 'pending';
 
             $sql = $wpdb->prepare(
-                "INSERT INTO $order_details_table (order_sn, order_status, order_details, status) 
-                VALUES (%s, %s , %s, %s) 
+                "INSERT INTO $order_details_table (order_sn, order_status, order_details, status, woo_order_created)
+                VALUES (%s, %s , %s, %s, 0)
                 ON DUPLICATE KEY UPDATE order_details = %s, status = %s",
                 $order_sn,
                 $order_status,

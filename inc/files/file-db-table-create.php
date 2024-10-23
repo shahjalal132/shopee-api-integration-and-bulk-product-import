@@ -168,6 +168,7 @@ function create_sync_order_details() {
         order_status VARCHAR(100) NULL,
         order_details TEXT NOT NULL,
         status VARCHAR(20) NOT NULL,
+        woo_order_created INT(1) DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY (id)
