@@ -179,7 +179,7 @@ $base_url = get_option( 'home' ) ?? '';
         $get_access_token = esc_url( $base_url . "/wp-json/bulk-import/v1/get-access-token" );
         ?>
         <td id="get_access_token"><?= $get_access_token; ?></td>
-        <td><?php esc_html_e( 'Sync Orders', 'bulk-product-import' ); ?></td>
+        <td><?php esc_html_e( 'Get Access Token', 'bulk-product-import' ); ?></td>
         <td>
             <button type="button" id="get_access_token_cp" class="btn btn-primary btn-sm">
                 <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
