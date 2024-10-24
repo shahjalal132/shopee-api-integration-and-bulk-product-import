@@ -109,6 +109,11 @@
     // tabs
     $("#tabs").tabs();
 
+    // Authentication
+    $("#shopee-shop-authentication").click(function (e) {
+      e.preventDefault();
+    });
+
     function initializeConfetti(buttonId) {
       let button = document.getElementById(buttonId);
       let confetti = new Confetti(buttonId);
