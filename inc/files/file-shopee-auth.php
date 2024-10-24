@@ -37,6 +37,8 @@ function shopee_get_access_token() {
     // Execute cURL and capture the response
     $response = curl_exec( $curl );
 
+    // put_program_logs( 'Shopee Access Token: ' . $response );
+
     // Check for cURL errors
     if ( $response === false ) {
         $error = curl_error( $curl );
@@ -51,7 +53,7 @@ function shopee_get_access_token() {
     $result = json_decode( $response, true );
 
     // Check for errors in the API response
-    if ( isset( $result['error'] ) ) {
+    if ( isset( $result['error'] ) && !empty( $result['error'] ) ) {
         return "API Error: " . $result['message'] . " (Error code: " . $result['error'] . ")";
     }
 
@@ -117,7 +119,7 @@ function shopee_refresh_access_token() {
     $ret = json_decode( $result, true );
 
     // Check for errors in the API response
-    if ( isset( $ret['error'] ) ) {
+    if ( isset( $ret['error'] ) && !empty( $ret['error'] ) ) {
         return "API Error: " . $ret['message'] . " (Error code: " . $ret['error'] . ")";
     }
 
