@@ -12,6 +12,7 @@ require_once BULK_PRODUCT_IMPORT_PLUGIN_PATH . '/inc/files/file-import-products-
 require_once BULK_PRODUCT_IMPORT_PLUGIN_PATH . '/inc/files/file-insert-products-db.php';
 require_once BULK_PRODUCT_IMPORT_PLUGIN_PATH . '/inc/files/file-api-endpoints.php';
 require_once BULK_PRODUCT_IMPORT_PLUGIN_PATH . '/inc/files/file-sync-order.php';
+require_once BULK_PRODUCT_IMPORT_PLUGIN_PATH . '/inc/files/file-shopee-auth.php';
 
 // include helper functions
 require_once BULK_PRODUCT_IMPORT_PLUGIN_PATH . '/inc/helpers/helper-helper-functions.php';
