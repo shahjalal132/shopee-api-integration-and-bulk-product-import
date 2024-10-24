@@ -4,11 +4,14 @@
  * Template for Shopee Settings
  */
 
+$home_url            = get_option( 'home' );
 $shopee_base_url     = get_option( 'shopee_base_url', '' ) ?? '';
 $shopee_partner_id   = get_option( 'shopee_partner_id', '' ) ?? '';
 $shopee_partner_key  = get_option( 'shopee_partner_key', '' ) ?? '';
 $shopee_shop_id      = get_option( 'shopee_shop_id', '' ) ?? '';
 $shopee_access_token = get_option( 'shopee_access_token', '' ) ?? '';
+$redirect_url        = get_option( 'shopee_redirect_url' ) ?? $home_url;
+$auth_code           = get_option( 'shopee_auth_code', '' ) ?? '';
 
 ?>
 
@@ -68,6 +71,24 @@ $shopee_access_token = get_option( 'shopee_access_token', '' ) ?? '';
                         name="shopee_access_token" id="shopee_access_token"
                         value="<?= esc_attr( $shopee_access_token ); ?>"
                         placeholder="<?php esc_attr_e( 'Access Token', 'bulk-product-import' ); ?>">
+                </div>
+                <div class="d-flex align-items-center mt-3">
+                    <!-- Label and input for Partner Key -->
+                    <label class="form-label" for="shopee_redirect_url">
+                        <?php esc_html_e( 'Redirect Url', 'bulk-product-import' ); ?>
+                    </label>
+                    <input type="text" class="form-control ms-5" style="width: 60% !important"
+                        name="shopee_redirect_url" id="shopee_redirect_url" value="<?= esc_attr( $redirect_url ); ?>"
+                        placeholder="<?php esc_attr_e( 'Redirect Url', 'bulk-product-import' ); ?>">
+                </div>
+                <div class="d-flex align-items-center mt-3">
+                    <!-- Label and input for Partner Key -->
+                    <label class="form-label" for="shopee_auth_code">
+                        <?php esc_html_e( 'Code', 'bulk-product-import' ); ?>
+                    </label>
+                    <input type="text" class="form-control ms-5" style="width: 60% !important" name="shopee_auth_code"
+                        id="shopee_auth_code" value="<?= esc_attr( $auth_code ); ?>"
+                        placeholder="<?php esc_attr_e( 'Code', 'bulk-product-import' ); ?>">
                 </div>
                 <!-- Submit button to save credentials -->
                 <input type="submit" class="btn btn-primary mt-3" id="shopee-credential-save"

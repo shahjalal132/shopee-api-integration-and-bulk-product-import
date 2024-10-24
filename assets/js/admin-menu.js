@@ -81,6 +81,8 @@
       let shopee_partner_key = $("#shopee_partner_key").val();
       let shopee_shop_id = $("#shopee_shop_id").val();
       let shopee_access_token = $("#shopee_access_token").val();
+      let shopee_redirect_url = $("#shopee_redirect_url").val();
+      let shopee_auth_code = $("#shopee_auth_code").val();
 
       $.ajax({
         type: "POST",
@@ -93,6 +95,8 @@
           shopee_partner_key: shopee_partner_key,
           shopee_shop_id: shopee_shop_id,
           shopee_access_token: shopee_access_token,
+          shopee_redirect_url: shopee_redirect_url,
+          shopee_auth_code: shopee_auth_code,
         },
         success: function (response) {
           let successMessage = response.data;
