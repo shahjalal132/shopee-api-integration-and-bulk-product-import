@@ -281,5 +281,24 @@
         copyToClipboard(sync_orders);
         showNotification("Copied to clipboard!");
       });
+
+    document
+      .getElementById("get_access_token_cp")
+      .addEventListener("click", function () {
+        let get_access_token =
+          document.getElementById("get_access_token").textContent;
+        copyToClipboard(get_access_token);
+        showNotification("Copied to clipboard!");
+      });
+
+    document
+      .getElementById("refresh_access_token_cp")
+      .addEventListener("click", function () {
+        let refresh_access_token = document.getElementById(
+          "refresh_access_token"
+        ).textContent;
+        copyToClipboard(refresh_access_token);
+        showNotification("Copied to clipboard!");
+      });
   });
 })(jQuery);

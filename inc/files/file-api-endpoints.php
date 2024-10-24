@@ -64,6 +64,12 @@ function bulk_products_import() {
         'permission_callback' => '__return_true',
     ] );
 
+    register_rest_route( 'bulk-import/v1', '/refresh-access-token', [
+        'methods'             => 'GET',
+        'callback'            => 'shopee_shopee_access_token_callback',
+        'permission_callback' => '__return_true',
+    ] );
+
 }
 
 function sync_products_api_callback() {
@@ -100,4 +106,8 @@ function sync_order_with_woocommerce_callback() {
 
 function shopee_get_access_token_callback(){
     return shopee_get_access_token();
+}
+
+function shopee_shopee_access_token_callback(){
+    return shopee_refresh_access_token();
 }

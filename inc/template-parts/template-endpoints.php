@@ -174,4 +174,28 @@ $base_url = get_option( 'home' ) ?? '';
             </button>
         </td>
     </tr>
+    <tr>
+        <?php
+        $get_access_token = esc_url( $base_url . "/wp-json/bulk-import/v1/get-access-token" );
+        ?>
+        <td id="get_access_token"><?= $get_access_token; ?></td>
+        <td><?php esc_html_e( 'Sync Orders', 'bulk-product-import' ); ?></td>
+        <td>
+            <button type="button" id="get_access_token_cp" class="btn btn-primary btn-sm">
+                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <?php
+        $refresh_access_token = esc_url( $base_url . "/wp-json/bulk-import/v1/refresh-access-token" );
+        ?>
+        <td id="refresh_access_token"><?= $refresh_access_token; ?></td>
+        <td><?php esc_html_e( 'Refresh Access Token', 'bulk-product-import' ); ?></td>
+        <td>
+            <button type="button" id="refresh_access_token_cp" class="btn btn-primary btn-sm">
+                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
+            </button>
+        </td>
+    </tr>
 </table>
