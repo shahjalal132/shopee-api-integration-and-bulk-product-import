@@ -75,6 +75,9 @@ class Admin_Menu {
                     <li class="nav-item"><a href="#shopee-api"
                             class="nav-link be-nav-links"><?php esc_html_e( 'Shopee Settings', 'bulk-product-import' ); ?></a>
                     </li>
+                    <li class="nav-item"><a href="#shopee-auth"
+                            class="nav-link be-nav-links"><?php esc_html_e( 'Authentication', 'bulk-product-import' ); ?></a>
+                    </li>
                     <li class="nav-item"><a href="#tables"
                             class="nav-link be-nav-links"><?php esc_html_e( 'Table Prefix', 'bulk-product-import' ); ?></a></li>
                     <li class="nav-item"><a href="#endpoints"
@@ -87,6 +90,10 @@ class Admin_Menu {
 
                 <div id="shopee-api">
                     <?php include BULK_PRODUCT_IMPORT_PLUGIN_PATH . '/inc/template-parts/template-shopee-settings.php'; ?>
+                </div>
+
+                <div id="shopee-auth">
+                    <?php include BULK_PRODUCT_IMPORT_PLUGIN_PATH . '/inc/template-parts/template-shopee-auth.php'; ?>
                 </div>
 
                 <div id="tables">
