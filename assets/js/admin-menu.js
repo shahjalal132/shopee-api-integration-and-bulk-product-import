@@ -112,6 +112,32 @@
     // Authentication
     $("#shopee-shop-authentication").click(function (e) {
       e.preventDefault();
+
+      let shopee_loader_wrapper = $(".shopee-auth-wrapper");
+      // add loader class
+      shopee_loader_wrapper.addClass("loader");
+
+      $.ajax({
+        type: "POST",
+        url: bulkProductImport.ajax_url,
+        data: {
+          action: "shopee_shop_authentication",
+          nonce: bulkProductImport.nonce,
+        },
+        success: function (response) {
+          // remove loader class
+          shopee_loader_wrapper.removeClass("loader");
+
+          let auth_url = response.data;
+          if (auth_url) {
+            window.location.href = auth_url;
+          }
+
+          const successMessage =
+            "Generate Shopee Authentication URL Go to Url and Authenticate";
+          showNotification(successMessage);
+        },
+      });
     });
 
     function initializeConfetti(buttonId) {

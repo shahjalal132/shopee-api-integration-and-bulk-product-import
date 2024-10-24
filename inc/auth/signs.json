@@ -1,1 +1,62 @@
-{"get_item_list":{"path":"/api/v2/product/get_item_list","access_token":"4e5247674e506f617a75545163654355","timestamp":1729681304,"sign":"1ea59dd752615c5b4839eb64c7a1471407a6db560f8cf3eb0d6b024b2e76151f"},"get_item_base_info":{"path":"/api/v2/product/get_item_base_info","access_token":"4e5247674e506f617a75545163654355","timestamp":1729681304,"sign":"b316fc50f8fb18dfe7c123e4703b186a9918b36fa7b5db23c567f6004fa8cf5a"},"get_category":{"path":"/api/v2/product/get_category","access_token":"4e5247674e506f617a75545163654355","timestamp":1729681304,"sign":"2720591e3a6e04add1a62b2d16049e5e59c101761b9e348cc62ca253ee98bc8c"},"get_order_list":{"path":"/api/v2/order/get_order_list","access_token":"4e5247674e506f617a75545163654355","timestamp":1729681304,"sign":"170e62da49418c1a9ff05e8657e6e2d1a124af88a4a4ceceb49def3185d018ee"},"get_order_detail":{"path":"/api/v2/order/get_order_detail","access_token":"4e5247674e506f617a75545163654355","timestamp":1729681304,"sign":"2391c465dc5f3f5742d330eef761099edd1208c183b5b76fd2b4a4c5bb3a4213"},"get_variations":{"path":"/api/v2/product/get_variations","access_token":"4e5247674e506f617a75545163654355","timestamp":1729681304,"sign":"6d1bd46f358123a6e239853728e39ae1b3f50c0a06af7c44236a60be18bc5749"},"get_variation_tree":{"path":"/api/v2/product/get_variation_tree","access_token":"4e5247674e506f617a75545163654355","timestamp":1729681304,"sign":"833f278826153f25ca6259192bd242e4aeb03f91abae0471c7aeec287819feb5"},"get_attributes":{"path":"/api/v2/product/get_attributes","access_token":"4e5247674e506f617a75545163654355","timestamp":1729681304,"sign":"c1f776d50612058ea1bd05bb3bdb7a5c14549465c974aeef54d80ce565765dfd"},"get_item_extra_info":{"path":"/api/v2/product/get_item_extra_info","access_token":"4e5247674e506f617a75545163654355","timestamp":1729681304,"sign":"24c9d7def081e8879d5c43b2afcaca4d38f601fe603d4342c4dc6cc23187db51"}}
+{
+    "get_item_list": {
+        "path": "/api/v2/product/get_item_list",
+        "access_token": "4e5247674e506f617a75545163654355",
+        "timestamp": 1729763095,
+        "sign": "274631f8ed1caec5cf418ec8584b8c4421764401db31a05d4d3bd93606049b2a"
+    },
+    "get_item_base_info": {
+        "path": "/api/v2/product/get_item_base_info",
+        "access_token": "4e5247674e506f617a75545163654355",
+        "timestamp": 1729763095,
+        "sign": "a1f4bc0c6b409e5280371ce2f2a18b1acb832b18665027cac0443213a0e7604c"
+    },
+    "get_category": {
+        "path": "/api/v2/product/get_category",
+        "access_token": "4e5247674e506f617a75545163654355",
+        "timestamp": 1729763095,
+        "sign": "985c510936faae8c805425e9501b6c09336391814d1e0d90f68eb792b86555dc"
+    },
+    "get_order_list": {
+        "path": "/api/v2/order/get_order_list",
+        "access_token": "4e5247674e506f617a75545163654355",
+        "timestamp": 1729763095,
+        "sign": "9571d7ede8302b64fa5eec2c38704bdeffd1528685fd944f3475cf77e84e8040"
+    },
+    "get_order_detail": {
+        "path": "/api/v2/order/get_order_detail",
+        "access_token": "4e5247674e506f617a75545163654355",
+        "timestamp": 1729763095,
+        "sign": "86db8bb41e109e6c05491309546623e4afeafa5b0e7a5b218f0c8210f890a446"
+    },
+    "get_variations": {
+        "path": "/api/v2/product/get_variations",
+        "access_token": "4e5247674e506f617a75545163654355",
+        "timestamp": 1729763095,
+        "sign": "c8cde735aa917625a87525452cf35758f625a054ce5532cf583f645b789563b7"
+    },
+    "get_variation_tree": {
+        "path": "/api/v2/product/get_variation_tree",
+        "access_token": "4e5247674e506f617a75545163654355",
+        "timestamp": 1729763095,
+        "sign": "3f7b6a2ef981e3057c06d531273eb4f5439b92ac73a43dbecd1394eda3ba2c32"
+    },
+    "get_attributes": {
+        "path": "/api/v2/product/get_attributes",
+        "access_token": "4e5247674e506f617a75545163654355",
+        "timestamp": 1729763095,
+        "sign": "53e2e3f0ed38f3352543d9b1ec2b631a96b5aae9158603172418d5a99f5e011e"
+    },
+    "get_item_extra_info": {
+        "path": "/api/v2/product/get_item_extra_info",
+        "access_token": "4e5247674e506f617a75545163654355",
+        "timestamp": 1729763095,
+        "sign": "acc265ea22f50872a1feeaa0a8c9be4b6427e935b8d6e25fab5920c03fb60bcc"
+    },
+    "auth_partner": {
+        "path": "/api/v2/shop/auth_partner",
+        "access_token": "4e5247674e506f617a75545163654355",
+        "timestamp": 1729763095,
+        "sign": "b2090f8095b8f05f4f3e068e046fdc6d440cc3bb89759ef015c86942cecc55ec"
+    }
+}

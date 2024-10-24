@@ -21,6 +21,7 @@ class Admin_Menu {
         add_action( 'wp_ajax_save_client_credentials', [ $this, 'save_client_credentials' ] );
         add_action( 'wp_ajax_save_table_prefix', [ $this, 'save_table_prefix' ] );
         add_action( 'wp_ajax_save_shopee_credentials', [ $this, 'save_shopee_credentials' ] );
+        add_action( 'wp_ajax_shopee_shop_authentication', [ $this, 'shopee_shop_authentication_callback' ] );
     }
 
     public function register_admin_menu() {
@@ -210,5 +211,31 @@ class Admin_Menu {
 
         // return success response
         wp_send_json_success( __( 'Credentials saved successfully', 'bulk-product-import' ) );
+    }
+
+    public function shopee_shop_authentication_callback() {
+
+        // check nonce
+        check_ajax_referer( 'bulk_product_import_nonce', 'nonce' );
+
+        // check if user can manage options
+        if ( !current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( __( 'Unauthorized user', 'bulk-product-import' ) );
+        }
+
+        // get the shopee credentials
+        $path               = "/api/v2/shop/auth_partner";
+        $shopee_partner_id  = get_option( 'shopee_partner_id', '' ) ?? '';
+        $shopee_partner_key = get_option( 'shopee_partner_key', '' ) ?? '';
+        $shopee_base_url    = get_option( 'shopee_base_url', '' ) ?? '';
+        $timestamp          = time();
+        $redirect_url       = get_option( 'shopee_redirect_url' );
+        $baseString         = sprintf( "%s%s%s", $shopee_partner_id, $path, $timestamp );
+        $sign               = hash_hmac( 'sha256', $baseString, $shopee_partner_key );
+        // generate auth rul
+        $url = sprintf( "%s%s?partner_id=%s&timestamp=%s&sign=%s&redirect=%s", $shopee_base_url, $path, $shopee_partner_id, $timestamp, $sign, $redirect_url );
+
+        // return success response
+        wp_send_json_success( $url );
     }
 }
