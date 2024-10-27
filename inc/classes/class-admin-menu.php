@@ -230,8 +230,7 @@ class Admin_Menu {
         $shopee_partner_key = get_option( 'shopee_partner_key', '' ) ?? '';
         $shopee_base_url    = get_option( 'shopee_base_url', '' ) ?? '';
         $timestamp          = time();
-
-        // $redirect_url       = get_option( 'shopee_redirect_url' );
+        
         $site_url     = site_url();
         $redirect_url = sprintf( "%s%s", $site_url, "/wp-admin/admin.php?page=bulk_product_import" );
 

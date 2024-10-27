@@ -62,7 +62,7 @@ $auth_code           = get_option( 'shopee_auth_code', '' ) ?? '';
                         id="shopee_shop_id" value="<?= esc_attr( $shopee_shop_id ); ?>"
                         placeholder="<?php esc_attr_e( 'Shop ID', 'bulk-product-import' ); ?>" required>
                 </div>
-                <div class="d-flex align-items-center mt-3">
+                <div class="d-flex align-items-center mt-3" style="display: none !important">
                     <!-- Label and input for Partner Key -->
                     <label class="form-label" for="shopee_access_token">
                         <?php esc_html_e( 'Access Token', 'bulk-product-import' ); ?>
@@ -72,7 +72,7 @@ $auth_code           = get_option( 'shopee_auth_code', '' ) ?? '';
                         value="<?= esc_attr( $shopee_access_token ); ?>"
                         placeholder="<?php esc_attr_e( 'Access Token', 'bulk-product-import' ); ?>">
                 </div>
-                <div class="d-flex align-items-center mt-3">
+                <div class="d-flex align-items-center mt-3" style="display: none !important">
                     <!-- Label and input for Partner Key -->
                     <label class="form-label" for="shopee_redirect_url">
                         <?php esc_html_e( 'Redirect Url', 'bulk-product-import' ); ?>
@@ -81,7 +81,7 @@ $auth_code           = get_option( 'shopee_auth_code', '' ) ?? '';
                         name="shopee_redirect_url" id="shopee_redirect_url" value="<?= esc_attr( $redirect_url ); ?>"
                         placeholder="<?php esc_attr_e( 'Redirect Url', 'bulk-product-import' ); ?>">
                 </div>
-                <div class="d-flex align-items-center mt-3">
+                <div class="d-flex align-items-center mt-3" style="display: none !important">
                     <!-- Label and input for Partner Key -->
                     <label class="form-label" for="shopee_auth_code">
                         <?php esc_html_e( 'Code', 'bulk-product-import' ); ?>
