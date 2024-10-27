@@ -63,20 +63,6 @@ $base_url = get_option( 'home' ) ?? '';
     </tr>
     <tr>
         <?php
-        // Define the sync products endpoint
-        $sync_products = esc_url( $base_url . "/wp-json/bulk-import/v1/sync-products" );
-        ?>
-        <td id="sync-products-api"><?php echo $sync_products; ?></td>
-        <td><?php esc_html_e( 'Sync Products', 'bulk-product-import' ); ?></td>
-        <td>
-            <button type="button" id="sync-products-cp" class="btn btn-primary btn-sm">
-                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
-            </button>
-        </td>
-    </tr>
-    <tr>
-        <?php
-        // Define the sync products endpoint
         $insert_products = esc_url( $base_url . "/wp-json/bulk-import/v1/insert-products-db" );
         ?>
         <td id="insert-products-api"><?php echo $insert_products; ?></td>
@@ -89,7 +75,6 @@ $base_url = get_option( 'home' ) ?? '';
     </tr>
     <tr>
         <?php
-        // Define the sync products endpoint
         $insert_price = esc_url( $base_url . "/wp-json/bulk-import/v1/insert-price-db" );
         ?>
         <td id="insert-price-api"><?php echo $insert_price; ?></td>
@@ -102,13 +87,60 @@ $base_url = get_option( 'home' ) ?? '';
     </tr>
     <tr>
         <?php
-        // Define the sync products endpoint
         $insert_stock = esc_url( $base_url . "/wp-json/bulk-import/v1/insert-stock-db" );
         ?>
         <td id="insert-stock-api"><?php echo $insert_stock; ?></td>
         <td><?php esc_html_e( 'Insert Stock DB', 'bulk-product-import' ); ?></td>
         <td>
             <button type="button" id="insert-stock-cp" class="btn btn-primary btn-sm">
+                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <?php
+        $insert_categories = esc_url( $base_url . "/wp-json/bulk-import/v1/insert-category-db" );
+        ?>
+        <td id="insert_category"><?= $insert_categories; ?></td>
+        <td><?php esc_html_e( 'Insert Categories DB', 'bulk-product-import' ); ?></td>
+        <td>
+            <button type="button" id="insert_categories_cp" class="btn btn-primary btn-sm">
+                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <?php
+        $sync_products = esc_url( $base_url . "/wp-json/bulk-import/v1/sync-products" );
+        ?>
+        <td id="sync-products-api"><?php echo $sync_products; ?></td>
+        <td><?php esc_html_e( 'Sync Products', 'bulk-product-import' ); ?></td>
+        <td>
+            <button type="button" id="sync-products-cp" class="btn btn-primary btn-sm">
+                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <?php
+        $get_access_token = esc_url( $base_url . "/wp-json/bulk-import/v1/get-access-token" );
+        ?>
+        <td id="get_access_token"><?= $get_access_token; ?></td>
+        <td><?php esc_html_e( 'Get Access Token', 'bulk-product-import' ); ?></td>
+        <td>
+            <button type="button" id="get_access_token_cp" class="btn btn-primary btn-sm">
+                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <?php
+        $refresh_access_token = esc_url( $base_url . "/wp-json/bulk-import/v1/refresh-access-token" );
+        ?>
+        <td id="refresh_access_token"><?= $refresh_access_token; ?></td>
+        <td><?php esc_html_e( 'Refresh Access Token', 'bulk-product-import' ); ?></td>
+        <td>
+            <button type="button" id="refresh_access_token_cp" class="btn btn-primary btn-sm">
                 <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
             </button>
         </td>
@@ -122,18 +154,6 @@ $base_url = get_option( 'home' ) ?? '';
         <td><?php esc_html_e( 'Sign Generate', 'bulk-product-import' ); ?></td>
         <td>
             <button type="button" id="sign_generate_cp" class="btn btn-primary btn-sm">
-                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
-            </button>
-        </td>
-    </tr>
-    <tr>
-        <?php
-        $insert_categories = esc_url( $base_url . "/wp-json/bulk-import/v1/insert-category-db" );
-        ?>
-        <td id="insert_category"><?= $insert_categories; ?></td>
-        <td><?php esc_html_e( 'Insert Categories DB', 'bulk-product-import' ); ?></td>
-        <td>
-            <button type="button" id="insert_categories_cp" class="btn btn-primary btn-sm">
                 <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
             </button>
         </td>
@@ -170,30 +190,6 @@ $base_url = get_option( 'home' ) ?? '';
         <td><?php esc_html_e( 'Sync Orders', 'bulk-product-import' ); ?></td>
         <td>
             <button type="button" id="sync_orders_cp" class="btn btn-primary btn-sm">
-                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
-            </button>
-        </td>
-    </tr>
-    <tr>
-        <?php
-        $get_access_token = esc_url( $base_url . "/wp-json/bulk-import/v1/get-access-token" );
-        ?>
-        <td id="get_access_token"><?= $get_access_token; ?></td>
-        <td><?php esc_html_e( 'Get Access Token', 'bulk-product-import' ); ?></td>
-        <td>
-            <button type="button" id="get_access_token_cp" class="btn btn-primary btn-sm">
-                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
-            </button>
-        </td>
-    </tr>
-    <tr>
-        <?php
-        $refresh_access_token = esc_url( $base_url . "/wp-json/bulk-import/v1/refresh-access-token" );
-        ?>
-        <td id="refresh_access_token"><?= $refresh_access_token; ?></td>
-        <td><?php esc_html_e( 'Refresh Access Token', 'bulk-product-import' ); ?></td>
-        <td>
-            <button type="button" id="refresh_access_token_cp" class="btn btn-primary btn-sm">
                 <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
             </button>
         </td>
