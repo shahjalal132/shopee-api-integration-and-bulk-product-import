@@ -22,6 +22,7 @@ class Admin_Menu {
         add_action( 'wp_ajax_save_table_prefix', [ $this, 'save_table_prefix' ] );
         add_action( 'wp_ajax_save_shopee_credentials', [ $this, 'save_shopee_credentials' ] );
         add_action( 'wp_ajax_shopee_shop_authentication', [ $this, 'shopee_shop_authentication_callback' ] );
+        add_action( 'admin_init', [ $this, 'handle_shopee_authentication_response' ] );
     }
 
     public function register_admin_menu() {
@@ -229,13 +230,36 @@ class Admin_Menu {
         $shopee_partner_key = get_option( 'shopee_partner_key', '' ) ?? '';
         $shopee_base_url    = get_option( 'shopee_base_url', '' ) ?? '';
         $timestamp          = time();
-        $redirect_url       = get_option( 'shopee_redirect_url' );
-        $baseString         = sprintf( "%s%s%s", $shopee_partner_id, $path, $timestamp );
-        $sign               = hash_hmac( 'sha256', $baseString, $shopee_partner_key );
+
+        // $redirect_url       = get_option( 'shopee_redirect_url' );
+        $site_url     = site_url();
+        $redirect_url = sprintf( "%s%s", $site_url, "/wp-admin/admin.php?page=bulk_product_import" );
+
+        $baseString = sprintf( "%s%s%s", $shopee_partner_id, $path, $timestamp );
+        $sign       = hash_hmac( 'sha256', $baseString, $shopee_partner_key );
         // generate auth rul
         $url = sprintf( "%s%s?partner_id=%s&timestamp=%s&sign=%s&redirect=%s", $shopee_base_url, $path, $shopee_partner_id, $timestamp, $sign, $redirect_url );
 
         // return success response
         wp_send_json_success( $url );
+    }
+
+    public function handle_shopee_authentication_response() {
+        // Check if we are on the correct admin page and if `code` are in the URL
+        if (
+            isset( $_GET['page'] ) && $_GET['page'] === 'bulk_product_import' &&
+            isset( $_GET['code'] )
+        ) {
+            // Sanitize the received values
+            $auth_code = sanitize_text_field( $_GET['code'] );
+            $shop_id   = sanitize_text_field( $_GET['shop_id'] );
+
+            // Save them to the options table
+            update_option( 'shopee_auth_code', $auth_code );
+
+            // Redirect to remove code and shop_id from the URL
+            wp_safe_redirect( admin_url( 'admin.php?page=bulk_product_import' ) );
+            exit;
+        }
     }
 }
