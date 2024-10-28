@@ -18,6 +18,7 @@ class Autoloader {
         Enqueue_Assets::get_instance();
         Admin_Menu::get_instance();
         Api_Endpoints::get_instance();
-        Sign_Generator::get_instance();        
+        Sign_Generator::get_instance();
+        Custom_Order_Status::get_instance();
     }
 }
