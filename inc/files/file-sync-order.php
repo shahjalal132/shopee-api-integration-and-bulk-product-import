@@ -35,11 +35,13 @@ function sync_order_with_woocommerce() {
 
         if ( !empty( $order ) ) {
             // Retrieve order information
-            $serial_id     = $order->id;
-            $order_sn      = $order->order_sn;
-            $order_status  = $order->order_status;
-            $order_details = json_decode( $order->order_details, true );
+            $serial_id = $order->id;
+            $order_sn  = $order->order_sn;
 
+            $order_status = $order->order_status;
+            $order_status = strtolower( str_replace( '_', '-', $order_status ) );
+
+            $order_details     = json_decode( $order->order_details, true );
             $payment_method    = $order_details['payment_method'];
             $recipient_address = $order_details['recipient_address'] ?? [];
             $customer_note     = $order_details['note'] ?? '';
@@ -49,13 +51,14 @@ function sync_order_with_woocommerce() {
             $name       = $recipient_address['name'] ?? '';
             $first_name = '';
             $last_name  = '';
-            $address_1  = $recipient_address['full_address'] ?? '';
-            $city       = $recipient_address['city'] ?? '';
-            $state      = $recipient_address['state'] ?? '';
-            $post_code  = $recipient_address['zipcode'] ?? 0;
-            $country    = $recipient_address['region'] ?? '';
-            $email      = 'email@gmail.com';
-            $phone      = $recipient_address['phone'] ?? 0;
+
+            $address_1 = $recipient_address['full_address'] ?? '';
+            $city      = $recipient_address['city'] ?? '';
+            $state     = $recipient_address['state'] ?? '';
+            $post_code = $recipient_address['zipcode'] ?? 0;
+            $country   = $recipient_address['region'] ?? '';
+            $email     = 'email@gmail.com';
+            $phone     = $recipient_address['phone'] ?? 0;
 
             // Get item list
             $item_list  = $order_details['item_list'] ?? [];
@@ -84,7 +87,7 @@ function sync_order_with_woocommerce() {
             $order_creation_data = [
                 'payment_method'       => $payment_method,
                 'payment_method_title' => $payment_method,
-                'status'               => 'completed',
+                'status'               => $order_status,
                 'customer_note'        => $customer_note,
                 'currency'             => $currency,
                 'billing'              => [

@@ -20,13 +20,13 @@ class Custom_Order_Status {
     public function register_custom_order_statuses() {
         $statuses = [
             'unpaid'             => 'Unpaid',
-            'ready_to_ship'      => 'Ready to Ship',
+            'ready-to-ship'      => 'Ready to Ship',
             'processed'          => 'Processed',
             'shipped'            => 'Shipped',
-            'to_confirm_receive' => 'To Confirm Receive',
-            'retry_ship'         => 'Retry Ship',
-            'to_return'          => 'To Return',
-            'in_cancel'          => 'In Cancel',
+            'to-confirm-receive' => 'To Confirm Receive',
+            'retry-ship'         => 'Retry Ship',
+            'to-return'          => 'To Return',
+            'in-cancel'          => 'In Cancel',
         ];
 
         foreach ( $statuses as $status_key => $status_label ) {

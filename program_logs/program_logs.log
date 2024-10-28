@@ -1,0 +1,20 @@
+
+{
+    "wc-pending": "Pending payment",
+    "wc-processing": "Processing",
+    "wc-on-hold": "On hold",
+    "wc-completed": "Completed",
+    "wc-cancelled": "Cancelled",
+    "wc-refunded": "Refunded",
+    "wc-failed": "Failed",
+    "wc-unpaid": "Unpaid",
+    "wc-ready-to-ship": "Ready to Ship",
+    "wc-processed": "Processed",
+    "wc-shipped": "Shipped",
+    "wc-to-confirm-receive": "To Confirm Receive",
+    "wc-retry-ship": "Retry Ship",
+    "wc-to-return": "To Return",
+    "wc-in-cancel": "In Cancel",
+    "wc-checkout-draft": "Draft"
+} - 2024-10-28 10:08:53
+
