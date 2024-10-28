@@ -132,8 +132,9 @@ function sync_order_with_woocommerce() {
             $wpdb->update(
                 $table_name,
                 [
+                    'order_id'          => $order_id,
                     'status'            => 'completed',
-                    'woo_order_created' => 1, // Mark order as created
+                    'woo_order_created' => 1,
                 ],
                 [
                     'id' => $serial_id,
