@@ -495,11 +495,12 @@ function insert_order_details_to_db() {
             $sql = $wpdb->prepare(
                 "INSERT INTO $order_details_table (order_sn, order_status, order_details, status, woo_order_created)
                 VALUES (%s, %s , %s, %s, 0)
-                ON DUPLICATE KEY UPDATE order_details = %s, status = %s",
+                ON DUPLICATE KEY UPDATE order_status = %s, order_details = %s, status = %s",
                 $order_sn,
                 $order_status,
                 $order_details,
                 $status,
+                $order_status,
                 $order_details,
                 $status
             );

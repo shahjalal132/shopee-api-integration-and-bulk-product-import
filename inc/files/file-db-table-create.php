@@ -164,6 +164,7 @@ function create_sync_order_details() {
 
     $sql = "CREATE TABLE IF NOT EXISTS $table_name (
         id INT AUTO_INCREMENT,
+        order_id BIGINT NULL UNIQUE,
         order_sn VARCHAR(255) NOT NULL UNIQUE,
         order_status VARCHAR(100) NULL,
         order_details TEXT NOT NULL,

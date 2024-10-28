@@ -22,3 +22,17 @@ $string = $partner_id . $api_path . $timestamp . $access_token . $shop_id;
 $hash = hash_hmac('sha256', $string, $key); // $key is partner key
 
 ```
+
+## Sync order Work Flow
+
+wp_sync_order_details table structure.
+
+id
+order_id
+order_sn
+order_status
+order_details
+status
+woo_order_created
+created_at
+updated_at
