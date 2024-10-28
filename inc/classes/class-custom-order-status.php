@@ -15,6 +15,7 @@ class Custom_Order_Status {
     public function setup_hooks() {
         add_action( 'init', [ $this, 'register_custom_order_statuses' ] );
         add_filter( 'wc_order_statuses', [ $this, 'add_custom_order_statuses' ] );
+        add_action( 'admin_head', [ $this, 'add_custom_status_colors' ] );
     }
 
     public function register_custom_order_statuses() {
@@ -36,7 +37,8 @@ class Custom_Order_Status {
                 'exclude_from_search'       => false,
                 'show_in_admin_all_list'    => true,
                 'show_in_admin_status_list' => true,
-                'label_count'               => _n_noop( $status_label . ' <span class="count">(%s)</span>', $status_label . ' <span class="count">(%s)</span>', 'bulk-product-import' ),
+                'label_count'               => _n_noop( $status_label . ' <span class="count">(%s)</span>', $status_label . ' <span
+                class="count">(%s)</span>', 'bulk-product-import' ),
             ] );
         }
     }
@@ -54,5 +56,41 @@ class Custom_Order_Status {
         ];
 
         return array_merge( $order_statuses, $custom_statuses );
+    }
+
+    public function add_custom_status_colors() {
+        echo '<style>
+    mark.order-status.status-unpaid {
+        background-color: #FFDD57 !important;
+    }
+
+    mark.order-status.status-ready-to-ship {
+        background-color: #57D9FF !important;
+    }
+
+    mark.order-status.status-processed {
+        background-color: #28A745 !important;
+    }
+
+    mark.order-status.status-shipped {
+        background-color: #007BFF !important;
+    }
+
+    mark.order-status.status-to-confirm-receive {
+        background-color: #FFC107 !important;
+    }
+
+    mark.order-status.status-retry-ship {
+        background-color: #FF5733 !important;
+    }
+
+    mark.order-status.status-to-return {
+        background-color: #FF6961 !important;
+    }
+
+    mark.order-status.status-in-cancel {
+        background-color: #6C757D !important;
+    }
+</style>';
     }
 }
