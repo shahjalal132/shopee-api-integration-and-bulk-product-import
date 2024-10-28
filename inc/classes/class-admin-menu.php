@@ -230,7 +230,7 @@ class Admin_Menu {
         $shopee_partner_key = get_option( 'shopee_partner_key', '' ) ?? '';
         $shopee_base_url    = get_option( 'shopee_base_url', '' ) ?? '';
         $timestamp          = time();
-        
+
         $site_url     = site_url();
         $redirect_url = sprintf( "%s%s", $site_url, "/wp-admin/admin.php?page=bulk_product_import" );
 
@@ -256,9 +256,19 @@ class Admin_Menu {
             // Save them to the options table
             update_option( 'shopee_auth_code', $auth_code );
 
+            $site_url              = site_url();
+            $access_token_url      = sprintf( "%s%s", $site_url, "/wp-json/bulk-import/v1/get-access-token" );
+            $generate_access_token = wp_remote_get( $access_token_url );
+
+            if ( is_wp_error( $generate_access_token ) ) {
+                return 'Error access token not generated';
+            }
+
             // Redirect to remove code and shop_id from the URL
             wp_safe_redirect( admin_url( 'admin.php?page=bulk_product_import' ) );
             exit;
+        } else {
+            return 'Error credentials not matched';
         }
     }
 }
