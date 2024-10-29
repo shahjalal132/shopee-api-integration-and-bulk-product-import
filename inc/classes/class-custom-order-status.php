@@ -61,35 +61,35 @@ class Custom_Order_Status {
     public function add_custom_status_colors() {
         echo '<style>
     mark.order-status.status-unpaid {
-        background-color: #FFDD57 !important;
+        background-color: #ffe789 !important;
     }
 
     mark.order-status.status-ready-to-ship {
-        background-color: #57D9FF !important;
+        background-color: #89e4ff !important;
     }
 
     mark.order-status.status-processed {
-        background-color: #28A745 !important;
+        background-color: #69c17d !important;
     }
 
     mark.order-status.status-shipped {
-        background-color: #007BFF !important;
+        background-color: #4da3ff !important;
     }
 
     mark.order-status.status-to-confirm-receive {
-        background-color: #FFC107 !important;
+        background-color: #ffd451 !important;
     }
 
     mark.order-status.status-retry-ship {
-        background-color: #FF5733 !important;
+        background-color: #ff8970 !important;
     }
 
     mark.order-status.status-to-return {
-        background-color: #FF6961 !important;
+        background-color: #ff8781 !important;
     }
 
     mark.order-status.status-in-cancel {
-        background-color: #6C757D !important;
+        background-color: #989ea4 !important;
     }
 </style>';
     }
