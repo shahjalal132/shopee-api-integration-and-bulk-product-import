@@ -1,2 +1,14 @@
-Order status: SHIPPED - 2024-10-28 12:29:02
+Update order status to shopee: 
+{
+    "error": "logistics.ship_order_not_ready_to_ship",
+    "message": "The order is not ready to ship.",
+    "request_id": "e3e3e7f3259c3a4127d1dac8320e8701:010002389a598abd:000000d586abaa06"
+} - 2024-10-29 11:53:03
+
+Update order status to shopee: 
+{
+    "error": "logistics.ship_order_not_ready_to_ship",
+    "message": "The order is not ready to ship.",
+    "request_id": "e3e3e7f3259c3a4e6fa7211ba797da01:010002d04607cc99:000000534a4e9b7e"
+} - 2024-10-29 11:53:04
 

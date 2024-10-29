@@ -391,6 +391,9 @@ function insert_order_list_to_db() {
                     'status'   => 'pending',
                 ]
             );
+
+            $shopee_update_status = update_order_status_to_shopee( $order_sn );
+            // put_program_logs( 'Update order status to shopee: ' . $shopee_update_status );
         }
         return "Order list inserted successfully DB";
     } else {
@@ -399,10 +402,59 @@ function insert_order_list_to_db() {
 
 }
 
+function update_order_status_to_shopee( $order_sn ) {
+
+    global $shopee_base_url, $shopee_partner_id, $shopee_shop_id;
+
+    // get the shopee credentials file path
+    $file_path = BULK_PRODUCT_IMPORT_PLUGIN_URL . "/inc/auth/signs.json";
+    // decode the json file
+    $signs_data = json_decode( file_get_contents( $file_path ), true );
+    // get the item list
+    $item_data = $signs_data['ship_order'];
+
+    // get the access token
+    $access_token = $item_data['access_token'];
+    // get the timestamp
+    $timestamp = $item_data['timestamp'];
+    $sign      = $item_data['sign'];
+
+    $payload = [
+        'order_sn' => $order_sn,
+        'dropoff'  => [
+            'address_id' => 0,
+        ],
+    ];
+
+    $url = sprintf( "%s/api/v2/logistics/ship_order?access_token=%s&partner_id=%s&shop_id=%s&sign=%s&timestamp=%s", $shopee_base_url, $access_token, $shopee_partner_id, $shopee_shop_id, $sign, $timestamp );
+
+    $curl = curl_init();
+    curl_setopt_array( $curl, array(
+        CURLOPT_URL            => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING       => '',
+        CURLOPT_MAXREDIRS      => 10,
+        CURLOPT_TIMEOUT        => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST  => 'POST',
+        CURLOPT_POSTFIELDS     => json_encode( $payload ),
+        CURLOPT_HTTPHEADER     => array(
+            'Content-Type: application/json',
+        ),
+    ) );
+
+    $response = curl_exec( $curl );
+
+    curl_close( $curl );
+    return $response;
+
+}
+
 // get order list from database
 function get_order_list_from_db() {
 
-    $limit = 10;
+    $limit = get_option( 'shopee_how_many_create_orders' ) ?? 10;
 
     global $wpdb;
     $table_prefix     = get_option( 'be-table-prefix' ) ?? '';
