@@ -194,4 +194,16 @@ $base_url = get_option( 'home' ) ?? '';
             </button>
         </td>
     </tr>
+    <tr>
+        <?php
+        $update_order_status = esc_url( $base_url . "/wp-json/bulk-import/v1/update-order-status" );
+        ?>
+        <td id="update_order_status"><?= $update_order_status; ?></td>
+        <td><?php esc_html_e( 'Update Order Status', 'bulk-product-import' ); ?></td>
+        <td>
+            <button type="button" id="update_order_status_cp" class="btn btn-primary btn-sm">
+                <?php esc_html_e( 'Copy', 'bulk-product-import' ); ?>
+            </button>
+        </td>
+    </tr>
 </table>

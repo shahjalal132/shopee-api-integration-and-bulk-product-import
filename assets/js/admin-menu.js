@@ -292,6 +292,15 @@
       });
 
     document
+      .getElementById("update_order_status_cp")
+      .addEventListener("click", function () {
+        let get_access_token =
+          document.getElementById("update_order_status").textContent;
+        copyToClipboard(get_access_token);
+        showNotification("Copied to clipboard!");
+      });
+
+    document
       .getElementById("refresh_access_token_cp")
       .addEventListener("click", function () {
         let refresh_access_token = document.getElementById(
