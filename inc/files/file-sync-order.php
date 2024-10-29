@@ -190,7 +190,7 @@ function update_order_status() {
         $orders = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT id, order_sn, order_id FROM $table_name WHERE order_status != 'COMPLETED' AND woo_order_created = 1 ORDER BY id ASC LIMIT %d OFFSET %d",
-                10,
+                20,
                 $offset
             )
         );
@@ -256,6 +256,14 @@ function update_order_status() {
                 }
             }
 
+            // Check if there are still incomplete orders
+            $remaining_orders = $wpdb->get_var( "SELECT COUNT(*) FROM $table_name WHERE order_status != 'COMPLETED' AND woo_order_created = 1" );
+
+            if ( $remaining_orders == 0 ) {
+                // Reset offset if no incomplete orders remain
+                update_option( 'shopee_order_offset_id', 0 );
+            }
+
             // Return a summary message
             $result_message = "Order Status Update Summary:\n\n";
 
@@ -270,6 +278,8 @@ function update_order_status() {
             return nl2br( $result_message );
 
         } else {
+            // No orders found, reset offset for future checks
+            update_option( 'shopee_order_offset_id', 0 );
             return "No incomplete orders found to update.";
         }
 
