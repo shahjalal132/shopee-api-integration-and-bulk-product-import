@@ -106,6 +106,29 @@
       });
     });
 
+    $("#shopee_options_save").on("click", function (e) {
+      e.preventDefault();
+
+      let how_many_create_orders = $("#how_many_create_orders").val();
+      let how_many_update_orders = $("#how_many_update_orders").val();
+
+      $.ajax({
+        type: "POST",
+        url: bulkProductImport.ajax_url,
+        data: {
+          action: "save_shopee_options",
+          nonce: bulkProductImport.nonce,
+          how_many_create_orders: how_many_create_orders,
+          how_many_update_orders: how_many_update_orders,
+        },
+        success: function (response) {
+          let successMessage = response.data;
+          // Display an info toast with no title
+          showNotification(successMessage);
+        },
+      });
+    });
+
     // tabs
     $("#tabs").tabs();
 
@@ -294,8 +317,9 @@
     document
       .getElementById("update_order_status_cp")
       .addEventListener("click", function () {
-        let get_access_token =
-          document.getElementById("update_order_status").textContent;
+        let get_access_token = document.getElementById(
+          "update_order_status"
+        ).textContent;
         copyToClipboard(get_access_token);
         showNotification("Copied to clipboard!");
       });

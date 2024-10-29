@@ -22,6 +22,7 @@ class Admin_Menu {
         add_action( 'wp_ajax_save_table_prefix', [ $this, 'save_table_prefix' ] );
         add_action( 'wp_ajax_save_shopee_credentials', [ $this, 'save_shopee_credentials' ] );
         add_action( 'wp_ajax_shopee_shop_authentication', [ $this, 'shopee_shop_authentication_callback' ] );
+        add_action( 'wp_ajax_save_shopee_options', [ $this, 'shopee_save_options_callback' ] );
         add_action( 'admin_init', [ $this, 'handle_shopee_authentication_response' ] );
     }
 
@@ -189,6 +190,22 @@ class Admin_Menu {
         wp_send_json_success( __( 'Table prefix saved successfully', 'bulk-product-import' ) );
     }
 
+    public function shopee_save_options_callback() {
+        check_ajax_referer( 'bulk_product_import_nonce', 'nonce' );
+
+        if ( !current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( __( 'Unauthorized user', 'bulk-product-import' ) );
+        }
+
+        $how_many_create_orders = sanitize_text_field( $_POST['how_many_create_orders'] );
+        $how_many_update_orders = sanitize_text_field( $_POST['how_many_update_orders'] );
+
+        update_option( 'shopee_how_many_create_orders', $how_many_create_orders );
+        update_option( 'shopee_how_many_update_orders', $how_many_update_orders );
+
+        wp_send_json_success( __( 'Credentials saved successfully', 'bulk-product-import' ) );
+    }
+
     public function save_shopee_credentials() {
 
         // check nonce
@@ -278,4 +295,5 @@ class Admin_Menu {
             return 'Error credentials not matched';
         }
     }
+
 }

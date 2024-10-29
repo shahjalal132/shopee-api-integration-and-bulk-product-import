@@ -6,6 +6,9 @@ use Automattic\WooCommerce\Client;
 use Automattic\WooCommerce\HttpClient\HttpClientException;
 
 function sync_order_with_woocommerce() {
+
+    $limit = get_option( 'shopee_how_many_create_orders' ) ?? 10;
+
     try {
         // WooCommerce store information
         $website_url     = home_url();
@@ -30,7 +33,7 @@ function sync_order_with_woocommerce() {
         $table_name   = $wpdb->prefix . $table_prefix . 'sync_order_details';
 
         // Get up to 10 orders that have not been created in WooCommerce
-        $orders = $wpdb->get_results( "SELECT * FROM $table_name WHERE woo_order_created = 0 LIMIT 10" );
+        $orders = $wpdb->get_results( "SELECT * FROM $table_name WHERE woo_order_created = 0 LIMIT $limit" );
 
         if ( empty( $orders ) ) {
             return "No orders found or orders already created.";
@@ -162,6 +165,9 @@ function update_order_total_amount( $order_id, $total_amount ) {
 }
 
 function update_order_status() {
+
+    $limit = get_option( 'shopee_how_many_update_orders' ) ?? 10;
+
     try {
         // WooCommerce store information
         $website_url     = home_url();
@@ -190,7 +196,7 @@ function update_order_status() {
         $orders = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT id, order_sn, order_id FROM $table_name WHERE order_status != 'COMPLETED' AND woo_order_created = 1 ORDER BY id ASC LIMIT %d OFFSET %d",
-                20,
+                intval( $limit ),
                 $offset
             )
         );
