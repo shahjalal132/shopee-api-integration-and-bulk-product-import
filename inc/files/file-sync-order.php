@@ -190,10 +190,13 @@ function update_order_status() {
         $orders = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT id, order_sn, order_id FROM $table_name WHERE order_status != 'COMPLETED' AND woo_order_created = 1 ORDER BY id ASC LIMIT %d OFFSET %d",
-                20,
+                10,
                 $offset
             )
         );
+
+        $updated_orders = [];
+        $failed_orders  = [];
 
         if ( !empty( $orders ) ) {
             foreach ( $orders as $order ) {
@@ -224,35 +227,57 @@ function update_order_status() {
                         'status' => $new_order_status,
                     ];
 
-                    // Update the order status on WooCommerce
-                    $client->put( 'orders/' . $order_id, $order_update_data );
+                    try {
+                        // Update the order status on WooCommerce
+                        $client->put( 'orders/' . $order_id, $order_update_data );
 
-                    // Update order status in the custom database
-                    $wpdb->update(
-                        $table_name,
-                        [
-                            'order_status' => $original_order_status,
-                            'status'       => 'status updated',
-                        ],
-                        [ 'id' => $serial_id ]
-                    );
+                        // Update order status in the custom database
+                        $wpdb->update(
+                            $table_name,
+                            [
+                                'order_status' => $original_order_status,
+                                'status'       => 'status updated',
+                            ],
+                            [ 'id' => $serial_id ]
+                        );
 
-                    // Update the offset ID for tracking progress
-                    update_option( 'shopee_order_offset_id', $serial_id );
+                        // Track successful updates
+                        $updated_orders[] = "Order SN: $order_sn (WooCommerce ID: $order_id) - Updated to status: $original_order_status";
+
+                        // Update the offset ID for tracking progress
+                        update_option( 'shopee_order_offset_id', $serial_id );
+                    } catch (Exception $update_exception) {
+                        // Track failed updates due to WooCommerce update failure
+                        $failed_orders[] = "Order SN: $order_sn (WooCommerce ID: $order_id) - Failed to update";
+                    }
+                } else {
+                    // Track orders with missing details from the API
+                    $failed_orders[] = "Order SN: $order_sn - No details found in API response";
                 }
             }
-            return 'Order statuses updated successfully.';
+
+            // Return a summary message
+            $result_message = "Order Status Update Summary:\n\n";
+
+            if ( !empty( $updated_orders ) ) {
+                $result_message .= "Successfully Updated Orders:\n" . implode( "\n", $updated_orders ) . "\n\n";
+            }
+
+            if ( !empty( $failed_orders ) ) {
+                $result_message .= "Failed to Update Orders:\n" . implode( "\n", $failed_orders ) . "\n";
+            }
+
+            return nl2br( $result_message );
+
         } else {
             return "No incomplete orders found to update.";
         }
 
     } catch (HttpClientException $e) {
-        // Handle the exception and log errors
-        // echo '<pre><code>' . print_r( $e->getMessage(), true ) . '</code><pre>'; // Error message.
-        // echo '<pre><code>' . print_r( $e->getRequest(), true ) . '</code><pre>'; // Last request data.
+        // Log error response details if available
         echo '<pre><code>' . print_r( $e->getResponse(), true ) . '</code><pre>'; // Last response data.
 
-        return 'Order status update failed.';
+        return 'Order status update failed due to client error.';
     }
 }
 
