@@ -19,7 +19,8 @@
   margin-top: 15px;
 }
 
-#shopee-auth {
+#shopee-auth,
+#shopee-options {
   box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 16px 0px;
   padding: 30px 20px;
   border-radius: 8px;
@@ -50,7 +51,7 @@
 
 /* endpoints table */
 
-#api-endpoints-table table{
+#api-endpoints-table table {
   width: 100%;
 }
 
@@ -70,7 +71,7 @@ th {
   height: 20px;
   border-radius: 50%;
   display: inline-block;
-  border-top: 3px solid #FFF;
+  border-top: 3px solid #fff;
   border-right: 3px solid transparent;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
@@ -83,4 +84,4 @@ th {
   100% {
     transform: rotate(360deg);
   }
-} 
+}
