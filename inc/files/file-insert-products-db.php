@@ -366,31 +366,32 @@ function insert_order_list_to_db() {
     global $wpdb;
     $table_prefix     = get_option( 'be-table-prefix' ) ?? '';
     $order_list_table = $wpdb->prefix . $table_prefix . 'sync_order_list';
-    truncate_table( $order_list_table );
+    // truncate_table( $order_list_table );
 
     if ( !empty( $order_list ) ) {
         foreach ( $order_list as $order ) {
 
             // get item sku
             $order_sn = $order['order_sn'];
+            $status   = 'pending';
 
-            /* $sql = $wpdb->prepare(
-                "INSERT INTO $order_list_table (order_sn, status) 
+            $sql = $wpdb->prepare(
+                "INSERT INTO $order_list_table (order_sn, status)
                 VALUES (%s, %s)
                 ON DUPLICATE KEY UPDATE status = %s",
                 $order_sn,
-                'pending',
-                'completed'
+                $status,
+                $status
             );
-            $wpdb->query( $sql ); */
+            $wpdb->query( $sql );
 
-            $wpdb->insert(
+            /* $wpdb->insert(
                 $order_list_table,
                 [
                     'order_sn' => $order_sn,
                     'status'   => 'pending',
                 ]
-            );
+            ); */
 
             $shopee_update_status = update_order_status_to_shopee( $order_sn );
             // put_program_logs( 'Update order status to shopee: ' . $shopee_update_status );
